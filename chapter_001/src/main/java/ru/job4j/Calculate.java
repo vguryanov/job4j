@@ -1,7 +1,7 @@
 package ru.job4j;
 
 /**
- * Calculate is a template class for "Hello world" app
+ * Calculate is a template class for "Hello world" application
  *
  * @author Vlad G.
  */
