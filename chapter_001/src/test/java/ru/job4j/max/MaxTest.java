@@ -18,4 +18,14 @@ public class MaxTest {
 
         assertThat(result, is(second));
     }
+
+    public void whenFirstMoreThanSecondAndThird() {
+        Max max = new Max();
+        int first = 3;
+        int second = 2;
+        int third = 1;
+        int result = max.max(first, second, third);
+
+        assertThat(result, is(first));
+    }
 }
