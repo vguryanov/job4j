@@ -1,7 +1,7 @@
 package ru.job4j.array;
 
 /**
- * Created by User2 on 13.04.2018.
+ * since 13.04.18
  */
 public class BubbleSort {
     public int[] sort(int[] array) {
