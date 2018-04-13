@@ -1,5 +1,7 @@
 package ru.job4j.array;
 
+import java.util.Arrays;
+
 /**
  * Created by User2 on 13.04.2018.
  */
@@ -8,6 +10,10 @@ public class ArrayChar {
 
     public ArrayChar(String line) {
         this.data = line.toCharArray();
+    }
+
+    public ArrayChar(char[] line) {
+        this.data = line;
     }
 
     /**
@@ -27,5 +33,23 @@ public class ArrayChar {
         }
 
         return result;
+    }
+
+    boolean contains(String sub) {
+        if (sub.length() > data.length) {
+            throw new IllegalArgumentException();
+        }
+
+        for (int i = 0; i <= data.length - sub.length(); i++) {
+            if (data[i] == sub.charAt(0)) {
+                ArrayChar substring = new ArrayChar(Arrays.copyOfRange(data, i, data.length));
+
+                if (substring.startWith(sub)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }
