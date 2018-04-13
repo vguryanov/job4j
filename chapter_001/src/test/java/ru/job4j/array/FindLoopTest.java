@@ -5,6 +5,9 @@ import org.junit.Test;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
+/**
+ * since 13.04.18
+ */
 public class FindLoopTest {
     @Test
     public void whenSearch5Then0() {
