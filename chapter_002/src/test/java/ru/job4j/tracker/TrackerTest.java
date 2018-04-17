@@ -10,6 +10,10 @@ import static org.junit.Assert.*;
  */
 public class TrackerTest {
     private static Item[] getTestItems(int beginIndex, int endIndex) {
+        if (beginIndex > endIndex || beginIndex < 0 || beginIndex > 4 || endIndex < 0 || endIndex > 4) {
+            throw new IllegalArgumentException();
+        }
+
         Item[] items = new Item[4];
         items[0] = new Item("item 1", "", 1);
         items[1] = new Item("item 2", "", 2);
