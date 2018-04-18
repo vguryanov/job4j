@@ -90,6 +90,7 @@ public class Tracker {
     }
 
     public void replace(String id, Item item) {
+        item.setId(id);
         items[findIndexById(id)] = item;
     }
 
@@ -97,5 +98,11 @@ public class Tracker {
         int deletedItemIndex = findIndexById(id);
         System.arraycopy(items, deletedItemIndex + 1, items, deletedItemIndex, items.length - 2);
         position--;
+    }
+
+    public void showAllItems() {
+        for (Item item : this.getAll()) {
+            System.out.println(item);
+        }
     }
 }

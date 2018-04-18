@@ -7,6 +7,11 @@ public class Item {
     private String id, name, description, comments;
     private long created;
 
+    public Item(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
     public Item(String name, String description, long created) {
         if (name != null && description != null && created != 0) {
             this.name = name;
@@ -55,6 +60,11 @@ public class Item {
 
     public void setCreated(long created) {
         this.created = created;
+    }
+
+    @Override
+    public String toString() {
+        return id + ", name: " + name + ", desc: " + description;
     }
 
     @Override
