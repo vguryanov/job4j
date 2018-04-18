@@ -92,6 +92,9 @@ public class StartUI {
                 case EXIT:
                     exit = true;
                     break;
+
+                default:
+                    break;
             }
         }
     }
@@ -115,14 +118,14 @@ public class StartUI {
     }
 
     private void showMenu() {
-        System.out.println("\nМеню.\n" +
-                "0. Add new Item\n" +
-                "1. Show all items\n" +
-                "2. Edit item\n" +
-                "3. Delete item\n" +
-                "4. Find item by Id\n" +
-                "5. Find items by name\n" +
-                "6. Exit Program");
+        System.out.println("\nМеню.\n"
+                + "0. Add new Item\n"
+                + "1. Show all items\n"
+                + "2. Edit item\n"
+                + "3. Delete item\n"
+                + "4. Find item by Id\n"
+                + "5. Find items by name\n"
+                + "6. Exit Program");
         // добавить остальные пункты меню.
     }
 
