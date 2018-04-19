@@ -125,7 +125,7 @@ public class StartUI {
                 + "3. Delete item\n"
                 + "4. Find item by Id\n"
                 + "5. Find items by name\n"
-                + "6. Exit Program");
+                + "6. Exit Program\n");
         // добавить остальные пункты меню.
     }
 

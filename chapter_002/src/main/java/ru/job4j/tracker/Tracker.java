@@ -98,6 +98,7 @@ public class Tracker {
         int deletedItemIndex = findIndexById(id);
         System.arraycopy(items, deletedItemIndex + 1, items, deletedItemIndex, items.length - 2);
         position--;
+        System.out.println("Item " + id + " deleted");
     }
 
     public void showAllItems() {
