@@ -19,6 +19,7 @@ public class MaxTest {
         assertThat(result, is(second));
     }
 
+    @Test
     public void whenFirstMoreThanSecondAndThird() {
         Max max = new Max();
         int first = 3;
