@@ -10,7 +10,7 @@ import static org.junit.Assert.assertThat;
 public class ArrayCharTest {
     @Test
     public void contains() throws Exception {
-        assertTrue("contains() method test fail", new ArrayChar("qwerty").contains("rty"));
+        assertTrue("contains() method test fail", new ArrayChar().contains("qwerty", "rty"));
     }
 
     @Test

@@ -8,6 +8,9 @@ import java.util.Arrays;
 public class ArrayChar {
     private char[] data;
 
+    public ArrayChar() {
+    }
+
     public ArrayChar(String line) {
         this.data = line.toCharArray();
     }
@@ -35,21 +38,20 @@ public class ArrayChar {
         return result;
     }
 
-    boolean contains(String sub) {
-        if (sub.length() > data.length) {
-            throw new IllegalArgumentException();
-        }
-
-        for (int i = 0; i <= data.length - sub.length(); i++) {
-            if (data[i] == sub.charAt(0)) {
-                ArrayChar substring = new ArrayChar(Arrays.copyOfRange(data, i, data.length));
-
-                if (substring.startWith(sub)) {
-                    return true;
+    boolean contains(String origin, String sub) {
+        char[] originChar = origin.toCharArray();
+        char[] subChar = sub.toCharArray();
+        for (int i = 0; i <= originChar.length - subChar.length; i++) {
+            for (int j = 0; j < subChar.length; j++) {
+                if (originChar[i + j] != subChar[j]) {
+                    break;
+                } else {
+                    if (j == subChar.length - 1) {
+                        return true;
+                    }
                 }
             }
         }
-
         return false;
     }
 }

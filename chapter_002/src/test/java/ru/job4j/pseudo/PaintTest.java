@@ -19,12 +19,7 @@ public class PaintTest {
         // выполняем действия пишушиее в консоль.
         new Paint().draw(shape);
         // проверяем результат вычисления
-        assertThat(
-                new String(out.toByteArray()),
-                is(
-                        expected
-                )
-        );
+        assertThat(new String(out.toByteArray()), is(expected));
         // возвращаем обратно стандартный вывод в консоль.
         System.setOut(stdout);
     }
