@@ -26,19 +26,23 @@ public class TrackerMenu {
         actions[6] = new ExitAction();
     }
 
+    public int[] getActionsRange() {
+        int[] result = new int[actions.length];
+        for (int i = 0; i < actions.length; i++) {
+            result[i] = actions[i].getKey();
+        }
+        return result;
+    }
+
     public void start() {
         MenuAction lastAction = null;
         while (lastAction != actions[6]) {
             this.showMenu();
-            String answer = this.input.ask("Выберите пункт меню: ");
+            int answer = this.input.ask("Выберите пункт меню: ", getActionsRange());
 
-            try {
-                lastAction = actions[Integer.parseInt(answer)];
-                System.out.println(lastAction.info());
-                lastAction.execute();
-            } catch (NumberFormatException e) {
-                System.out.println("Wrong key");
-            }
+            lastAction = actions[answer];
+            System.out.println(lastAction.info());
+            lastAction.execute();
         }
     }
 
@@ -54,7 +58,7 @@ public class TrackerMenu {
     }
 
     private Item createItem() {
-        String name = this.input.ask("Введите имя заявки: ");
+        String name = this.input.ask("Введите ваше имя: ");
         String desc = this.input.ask("Введите описание заявки: ");
         Item item = new Item(name, desc);
         return item;
@@ -68,6 +72,11 @@ public class TrackerMenu {
 
     private class AddNewItemAction implements MenuAction {
         @Override
+        public int getKey() {
+            return 0;
+        }
+
+        @Override
         public void execute() {
             addNewItemToTracker();
         }
@@ -80,6 +89,11 @@ public class TrackerMenu {
 
     private class ShowAllItemsAction implements MenuAction {
         @Override
+        public int getKey() {
+            return 1;
+        }
+
+        @Override
         public void execute() {
             tracker.showAllItems();
         }
@@ -91,6 +105,11 @@ public class TrackerMenu {
     }
 
     private class EditItemAction implements MenuAction {
+        @Override
+        public int getKey() {
+            return 2;
+        }
+
         @Override
         public void execute() {
             tracker.showAllItems();
@@ -110,6 +129,11 @@ public class TrackerMenu {
 
     private class DeleteItemAction implements MenuAction {
         @Override
+        public int getKey() {
+            return 3;
+        }
+
+        @Override
         public void execute() {
             tracker.showAllItems();
             tracker.delete(
@@ -125,6 +149,11 @@ public class TrackerMenu {
     }
 
     private class FindItemByIdAction implements MenuAction {
+        @Override
+        public int getKey() {
+            return 4;
+        }
+
         @Override
         public void execute() {
             System.out.println(
@@ -142,6 +171,11 @@ public class TrackerMenu {
 
     private class FindItemsByNameAction implements MenuAction {
         @Override
+        public int getKey() {
+            return 5;
+        }
+
+        @Override
         public void execute() {
             Item[] result = tracker.findByName(
                     input.ask("Enter task name for search: ")
@@ -157,6 +191,11 @@ public class TrackerMenu {
     }
 
     private class ExitAction implements MenuAction {
+        @Override
+        public int getKey() {
+            return 6;
+        }
+
         @Override
         public void execute() {
         }

@@ -37,4 +37,17 @@ public class StubInput implements Input {
     public String ask(String question) {
         return this.value[this.position++];
     }
+
+    @Override
+    public int ask(String question, int[] range) {
+        int inputKey = Integer.parseInt(ask(question));
+
+        for (int i : range) {
+            if (i == inputKey) {
+                return i;
+            }
+        }
+
+        throw new IndexOutOfMenuActionsRangeException("Key is out of menu actions range");
+    }
 }

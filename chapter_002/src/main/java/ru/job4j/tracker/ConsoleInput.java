@@ -12,4 +12,17 @@ public class ConsoleInput implements Input {
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
     }
+
+    @Override
+    public int ask(String question, int[] range) throws NumberFormatException, IndexOutOfMenuActionsRangeException {
+        int inputKey = Integer.parseInt(ask(question));
+
+        for (int i : range) {
+            if (i == inputKey) {
+                return i;
+            }
+        }
+
+        throw new IndexOutOfMenuActionsRangeException("Key is out of menu actions range");
+    }
 }
