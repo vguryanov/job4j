@@ -21,4 +21,9 @@ public class FactorialTest {
         int factorial = new Factorial().calc(0);
         assertThat(factorial, is(1));
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void whenCalculateFactorialForMinusOneThenException() {
+        int factorial = new Factorial().calc(-1);
+    }
 }
