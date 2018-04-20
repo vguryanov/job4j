@@ -102,8 +102,11 @@ public class Tracker {
     }
 
     public void showAllItems() {
-        for (Item item : this.getAll()) {
-            System.out.println(item);
+        Item[] items = this.getAll();
+        if (items != null) {
+            for (Item item : this.getAll()) {
+                System.out.println(item);
+            }
         }
     }
 }

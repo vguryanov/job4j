@@ -1,5 +1,7 @@
 package ru.job4j.tracker;
 
+import java.util.Arrays;
+
 /**
  * Created by User2 on 18.04.2018.
  */
@@ -84,9 +86,7 @@ public class StartUI {
                             this.input.ask("Enter task name for search: ")
                     );
 
-                    for (Item item : result) {
-                        System.out.println(item);
-                    }
+                    System.out.println(Arrays.toString(result));
                     break;
 
                 case EXIT:
