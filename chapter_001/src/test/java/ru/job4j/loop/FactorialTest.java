@@ -15,16 +15,15 @@ public class FactorialTest {
         assertThat(factorial, is(120));
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void whenCalculateFactorialForMinusOneThenException() {
+        int factorial = new Factorial().calc(-1);
+    }
+
     @Test
     public void whenCalculateFactorialForZeroThenOne() {
         //напишите здесь тест, проверяющий, что факториал для числа 0 равен 1.
         int factorial = new Factorial().calc(0);
         assertThat(factorial, is(1));
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void whenCalculateFactorialForMinusOneThenException() {
-        //напишите здесь тест, проверяющий, что факториал для числа 0 равен 1.
-        int factorial = new Factorial().calc(-1);
     }
 }
