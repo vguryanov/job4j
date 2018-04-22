@@ -8,7 +8,7 @@ import java.util.Arrays;
 public class TrackerMenu {
     private final Tracker tracker;
     private final Input input;
-    private final MenuAction[] actions = new MenuAction[7];
+    private final BaseAction[] actions = new BaseAction[7];
 
     public TrackerMenu(Tracker tracker, Input input) {
         this.tracker = tracker;
@@ -35,7 +35,7 @@ public class TrackerMenu {
     }
 
     public void start() {
-        MenuAction lastAction = null;
+        BaseAction lastAction = null;
         while (lastAction != actions[6]) {
             this.showMenu();
             int answer = this.input.ask("Выберите пункт меню: ", getActionsRange());
@@ -70,7 +70,7 @@ public class TrackerMenu {
         System.out.println("Item " + item.getId() + " successfully created and added to tracker");
     }
 
-    private class AddNewItemAction extends MenuAction {
+    private class AddNewItemAction extends BaseAction {
         public AddNewItemAction(int key, String info) {
             super(key, info);
         }
@@ -81,7 +81,7 @@ public class TrackerMenu {
         }
     }
 
-    private class ShowAllItemsAction extends MenuAction {
+    private class ShowAllItemsAction extends BaseAction {
         public ShowAllItemsAction(int key, String info) {
             super(key, info);
         }
@@ -92,7 +92,7 @@ public class TrackerMenu {
         }
     }
 
-    private class EditItemAction extends MenuAction {
+    private class EditItemAction extends BaseAction {
         public EditItemAction(int key, String info) {
             super(key, info);
         }
@@ -109,7 +109,7 @@ public class TrackerMenu {
         }
     }
 
-    private class DeleteItemAction extends MenuAction {
+    private class DeleteItemAction extends BaseAction {
         public DeleteItemAction(int key, String info) {
             super(key, info);
         }
@@ -124,7 +124,7 @@ public class TrackerMenu {
         }
     }
 
-    private class FindItemByIdAction extends MenuAction {
+    private class FindItemByIdAction extends BaseAction {
         public FindItemByIdAction(int key, String info) {
             super(key, info);
         }
@@ -139,7 +139,7 @@ public class TrackerMenu {
         }
     }
 
-    private class FindItemsByNameAction extends MenuAction {
+    private class FindItemsByNameAction extends BaseAction {
         public FindItemsByNameAction(int key, String info) {
             super(key, info);
         }
@@ -154,7 +154,7 @@ public class TrackerMenu {
         }
     }
 
-    private class ExitAction extends MenuAction {
+    private class ExitAction extends BaseAction {
         public ExitAction(int key, String info) {
             super(key, info);
         }
