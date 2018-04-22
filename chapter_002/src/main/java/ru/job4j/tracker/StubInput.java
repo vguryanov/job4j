@@ -41,13 +41,17 @@ public class StubInput implements Input {
     @Override
     public int ask(String question, int[] range) {
         int inputKey = Integer.parseInt(ask(question));
+        int result = -1;
 
         for (int i : range) {
             if (i == inputKey) {
-                return i;
+                result = i;
             }
         }
 
-        throw new IndexOutOfMenuActionsRangeException("Key is out of menu actions range");
+        if (result == -1) {
+            throw new IndexOutOfMenuActionsRangeException("Key is out of menu actions range");
+        }
+        return result;
     }
 }
