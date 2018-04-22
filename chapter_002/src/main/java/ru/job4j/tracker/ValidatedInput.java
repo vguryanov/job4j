@@ -3,21 +3,31 @@ package ru.job4j.tracker;
 /**
  * Created by User2 on 20.04.2018.
  */
-public class ValidatedInput extends ConsoleInput {
+public class ValidatedInput implements Input {
+    private final Input input;
+
+    public ValidatedInput(final Input input) {
+        this.input = input;
+    }
+
     @Override
+    public String ask(String question) {
+        return this.input.ask(question);
+    }
+
     public int ask(String question, int[] range) {
-        int result = -1;
-        boolean isValidationSuccess = false;
-        while (!isValidationSuccess) {
+        boolean invalid = true;
+        int value = -1;
+        do {
             try {
-                result = super.ask(question, range);
-                isValidationSuccess = true;
-            } catch (NumberFormatException e) {
-                System.out.println("Wrong input key format, please try again");
+                value = this.input.ask(question, range);
+                invalid = false;
             } catch (IndexOutOfMenuActionsRangeException e) {
-                System.out.println("Wrong input key, please try again");
+                System.out.println("Please select key from menu.");
+            } catch (NumberFormatException nfe) {
+                System.out.println("Please enter valid key.");
             }
-        }
-        return result;
+        } while (invalid);
+        return value;
     }
 }

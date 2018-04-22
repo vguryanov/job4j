@@ -41,6 +41,6 @@ public class StartUI {
      * @param args
      */
     public static void main(String[] args) {
-        new StartUI(new ValidatedInput(), new Tracker()).init();
+        new StartUI(new ValidatedInput(new ConsoleInput()), new Tracker()).init();
     }
 }
