@@ -3,10 +3,22 @@ package ru.job4j.tracker;
 /**
  * Created by User2 on 20.04.2018.
  */
-public interface MenuAction {
-    int getKey();
+abstract class MenuAction {
+    protected int key;
+    private String info;
 
-    void execute();
+    public MenuAction(int key, String info) {
+        this.key = key;
+        this.info = info;
+    }
 
-    String info();
+    int getKey() {
+        return key;
+    }
+
+    abstract void execute();
+
+    String info() {
+        return info;
+    }
 }

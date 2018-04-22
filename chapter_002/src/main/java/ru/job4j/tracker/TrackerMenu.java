@@ -17,13 +17,13 @@ public class TrackerMenu {
     }
 
     private void fillActions() {
-        actions[0] = new AddNewItemAction();
-        actions[1] = new ShowAllItemsAction();
-        actions[2] = new EditItemAction();
-        actions[3] = new DeleteItemAction();
-        actions[4] = new FindItemByIdAction();
-        actions[5] = new FindItemsByNameAction();
-        actions[6] = new ExitAction();
+        actions[0] = new AddNewItemAction(0, "Adding item to tracker: ");
+        actions[1] = new ShowAllItemsAction(1, "Showing all items: ");
+        actions[2] = new EditItemAction(2, "Editing item: ");
+        actions[3] = new DeleteItemAction(3, "Deleting item: ");
+        actions[4] = new FindItemByIdAction(4, "Starting item search by ID: ");
+        actions[5] = new FindItemsByNameAction(5, "Starting item search by name: ");
+        actions[6] = new ExitAction(6, "Exiting application...");
     }
 
     public int[] getActionsRange() {
@@ -70,44 +70,31 @@ public class TrackerMenu {
         System.out.println("Item " + item.getId() + " successfully created and added to tracker");
     }
 
-    private class AddNewItemAction implements MenuAction {
-        @Override
-        public int getKey() {
-            return 0;
+    private class AddNewItemAction extends MenuAction {
+        public AddNewItemAction(int key, String info) {
+            super(key, info);
         }
 
         @Override
         public void execute() {
             addNewItemToTracker();
         }
-
-        @Override
-        public String info() {
-            return "Adding item to tracker: ";
-        }
     }
 
-    private class ShowAllItemsAction implements MenuAction {
-        @Override
-        public int getKey() {
-            return 1;
+    private class ShowAllItemsAction extends MenuAction {
+        public ShowAllItemsAction(int key, String info) {
+            super(key, info);
         }
 
         @Override
         public void execute() {
             tracker.showAllItems();
         }
-
-        @Override
-        public String info() {
-            return "Showing all items: ";
-        }
     }
 
-    private class EditItemAction implements MenuAction {
-        @Override
-        public int getKey() {
-            return 2;
+    private class EditItemAction extends MenuAction {
+        public EditItemAction(int key, String info) {
+            super(key, info);
         }
 
         @Override
@@ -120,17 +107,11 @@ public class TrackerMenu {
             );
             System.out.println("Item " + idForReplacement + " successfully replaced");
         }
-
-        @Override
-        public String info() {
-            return "Editing item: ";
-        }
     }
 
-    private class DeleteItemAction implements MenuAction {
-        @Override
-        public int getKey() {
-            return 3;
+    private class DeleteItemAction extends MenuAction {
+        public DeleteItemAction(int key, String info) {
+            super(key, info);
         }
 
         @Override
@@ -141,17 +122,11 @@ public class TrackerMenu {
             );
 
         }
-
-        @Override
-        public String info() {
-            return "Deleting item: ";
-        }
     }
 
-    private class FindItemByIdAction implements MenuAction {
-        @Override
-        public int getKey() {
-            return 4;
+    private class FindItemByIdAction extends MenuAction {
+        public FindItemByIdAction(int key, String info) {
+            super(key, info);
         }
 
         @Override
@@ -162,17 +137,11 @@ public class TrackerMenu {
                     )
             );
         }
-
-        @Override
-        public String info() {
-            return "Starting item search by ID: ";
-        }
     }
 
-    private class FindItemsByNameAction implements MenuAction {
-        @Override
-        public int getKey() {
-            return 5;
+    private class FindItemsByNameAction extends MenuAction {
+        public FindItemsByNameAction(int key, String info) {
+            super(key, info);
         }
 
         @Override
@@ -183,26 +152,15 @@ public class TrackerMenu {
 
             System.out.println(Arrays.toString(result));
         }
-
-        @Override
-        public String info() {
-            return "Starting item search by name: ";
-        }
     }
 
-    private class ExitAction implements MenuAction {
-        @Override
-        public int getKey() {
-            return 6;
+    private class ExitAction extends MenuAction {
+        public ExitAction(int key, String info) {
+            super(key, info);
         }
 
         @Override
         public void execute() {
-        }
-
-        @Override
-        public String info() {
-            return "Exiting application...";
         }
     }
 }
