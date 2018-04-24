@@ -1,5 +1,6 @@
 package ru.job4j.list;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,6 +16,18 @@ public class ConvertList2Array {
                 int value = listIndex < list.size() ? list.get(listIndex) : 0;
                 result[i][j] = value;
                 listIndex++;
+            }
+        }
+
+        return result;
+    }
+
+    public List<Integer> convert(List<int[]> list) {
+        List<Integer> result = new ArrayList<>();
+
+        for (int[] array : list) {
+            for (int i = 0; i < array.length; i++) {
+                result.add(array[i]);
             }
         }
 
