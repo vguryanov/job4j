@@ -115,4 +115,22 @@ public class StartUITest {
 
         setDefaultOutput();
     }
+
+    @Test
+    public void validationTest() {
+        redirectOutput();
+
+        ValidatedInput input = new ValidatedInput(
+                new StubInput(new String[]{"invalid", "0"})
+        );
+        input.ask("Введите пункт меню: ", new int[]{0});
+        assertThat(
+                this.out.toString(),
+                is(
+                        String.format("Please enter valid key." + System.lineSeparator())
+                )
+        );
+
+        setDefaultOutput();
+    }
 }
