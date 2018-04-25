@@ -2,6 +2,8 @@ package ru.job4j.tracker;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
@@ -9,7 +11,7 @@ import static org.junit.Assert.*;
  * Created by User2 on 16.04.2018.
  */
 public class TrackerTest {
-    private static Item[] getTestItems(int beginIndex, int endIndex) {
+    private static ArrayList<Item> getTestItems(int beginIndex, int endIndex) {
         if (beginIndex > endIndex || beginIndex < 0 || beginIndex > 4 || endIndex < 0 || endIndex > 4) {
             throw new IllegalArgumentException();
         }
@@ -20,10 +22,10 @@ public class TrackerTest {
         items[2] = new Item("item 2", "", 3);
         items[3] = new Item("item 4", "", 4);
 
-        Item[] result = new Item[endIndex - beginIndex + 1];
+        ArrayList<Item> result = new ArrayList();
 
         for (int i = beginIndex - 1, j = 0; i < endIndex; i++, j++) {
-            result[j] = items[i];
+            result.add(items[i]);
         }
 
         return result;
@@ -40,8 +42,8 @@ public class TrackerTest {
     @Test
     public void getAll() {
         Tracker testTracker = getTestTracker(1, 4);
-        Item[] expected = getTestItems(1, 4);
-        Item[] result = testTracker.getAll();
+        ArrayList<Item> expected = getTestItems(1, 4);
+        ArrayList<Item> result = testTracker.getAll();
         assertThat(result, is(expected));
     }
 
@@ -50,7 +52,7 @@ public class TrackerTest {
         Tracker tracker = new Tracker();
         Item item = new Item("test1", "testDescription", 123L);
         tracker.add(item);
-        assertThat(tracker.getAll()[0], is(item));
+        assertThat(tracker.getAll().get(0), is(item));
     }
 
     @Test
@@ -72,9 +74,9 @@ public class TrackerTest {
     @Test
     public void findItemById() throws Exception {
         Tracker testTracker = getTestTracker(1, 4);
-        String testID = testTracker.getAll()[0].getId();
+        String testID = testTracker.getAll().get(0).getId();
 
-        Item expected = testTracker.getAll()[0];
+        Item expected = testTracker.getAll().get(0);
         Item result = testTracker.findItemById(testID);
 
         assertThat(result, is(expected));
@@ -84,9 +86,9 @@ public class TrackerTest {
     public void findByName() throws Exception {
         Tracker testTracker = getTestTracker(1, 4);
 
-        String testName = getTestItems(1, 2)[1].getName();
-        Item[] result = testTracker.findByName(testName);
-        Item[] expected = getTestItems(2, 3);
+        String testName = getTestItems(1, 2).get(1).getName();
+        ArrayList<Item> result = testTracker.findByName(testName);
+        ArrayList<Item> expected = getTestItems(2, 3);
 
         assertThat(result, is(expected));
     }
@@ -94,11 +96,11 @@ public class TrackerTest {
     @Test
     public void delete() throws Exception {
         Tracker testTracker = getTestTracker(1, 4);
-        String testID = testTracker.getAll()[0].getId();
+        String testID = testTracker.getAll().get(0).getId();
         testTracker.delete(testID);
 
-        Item[] result = testTracker.getAll();
-        Item[] expected = getTestItems(2, 4);
+        ArrayList<Item> result = testTracker.getAll();
+        ArrayList<Item> expected = getTestItems(2, 4);
 
         assertThat(result, is(expected));
     }

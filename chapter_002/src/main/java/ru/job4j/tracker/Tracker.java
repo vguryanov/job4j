@@ -12,12 +12,11 @@ public class Tracker {
     /**
      * Массив для хранение заявок.
      */
-    private final Item[] items = new Item[100];
+    private final ArrayList<Item> items = new ArrayList<>();
 
     /**
      * Указатель ячейки для новой заявки.
      */
-    private int position = 0;
     private static final Random RNDM = new Random();
 
     /**
@@ -27,7 +26,7 @@ public class Tracker {
      */
     public Item add(Item item) {
         item.setId(this.generateId());
-        this.items[this.position++] = item;
+        this.items.add(item);
         return item;
     }
 
@@ -39,12 +38,12 @@ public class Tracker {
      */
     private String generateId() {
         //Реализовать метод генерации.
-        return String.valueOf(System.currentTimeMillis() + RNDM.nextInt(50));
+        return String.valueOf(RNDM.nextInt(10000));
     }
 
     private int findIndexById(String id) {
-        for (int i = 0; i < items.length; i++) {
-            if (items[i] != null && items[i].getId().equals(id)) {
+        for (int i = 0; i < items.size(); i++) {
+            if (items.get(i) != null && items.get(i).getId().equals(id)) {
                 return i;
             }
         }
@@ -52,57 +51,54 @@ public class Tracker {
     }
 
     public Item findItemById(String id) {
-        return items[this.findIndexById(id)];
+        return items.get(this.findIndexById(id));
     }
 
-    public Item[] findByName(String key) {
-        LinkedList<Item> resultList = new LinkedList();
+    public ArrayList<Item> findByName(String key) {
+        ArrayList<Item> resultList = new ArrayList<>();
         int itemCount = 0;
-        for (int i = 0; i < items.length; i++) {
-            if (items[i] != null && items[i].getName().equals(key)) {
-                resultList.add(items[i]);
+        for (int i = 0; i < items.size(); i++) {
+            if (items.get(i) != null && items.get(i).getName().equals(key)) {
+                resultList.add(items.get(i));
                 itemCount++;
             }
         }
 
         if (resultList.size() > 0) {
-            return resultList.toArray(new Item[itemCount]);
+            return resultList;
         } else {
             return null;
         }
     }
 
-    public Item[] getAll() {
+    public ArrayList<Item> getAll() {
         ArrayList<Item> itemList = new ArrayList<>();
-        int itemCount = 0;
 
         for (Item item : items) {
             if (item != null) {
                 itemList.add(item);
-                itemCount++;
             }
         }
 
-        if (itemCount > 0) {
-            return itemList.toArray(new Item[itemCount]);
+        if (itemList.size() > 0) {
+            return itemList;
         }
         return null;
     }
 
     public void replace(String id, Item item) {
         item.setId(id);
-        items[findIndexById(id)] = item;
+        items.set(findIndexById(id), item);
     }
 
     public void delete(String id) {
         int deletedItemIndex = findIndexById(id);
-        System.arraycopy(items, deletedItemIndex + 1, items, deletedItemIndex, items.length - 2);
-        position--;
+        items.remove(items.get(deletedItemIndex));
         System.out.println("Item " + id + " deleted");
     }
 
     public void showAllItems() {
-        Item[] items = this.getAll();
+        ArrayList<Item> items = this.getAll();
         if (items != null) {
             for (Item item : this.getAll()) {
                 System.out.println(item);

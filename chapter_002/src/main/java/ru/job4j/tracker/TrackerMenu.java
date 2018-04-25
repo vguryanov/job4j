@@ -1,5 +1,6 @@
 package ru.job4j.tracker;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -8,7 +9,7 @@ import java.util.Arrays;
 public class TrackerMenu {
     private final Tracker tracker;
     private final Input input;
-    private final BaseAction[] actions = new BaseAction[7];
+    private final ArrayList<BaseAction> actions = new ArrayList<>();
 
     public TrackerMenu(Tracker tracker, Input input) {
         this.tracker = tracker;
@@ -17,30 +18,30 @@ public class TrackerMenu {
     }
 
     private void fillActions() {
-        actions[0] = new AddNewItemAction(0, "Adding item to tracker: ");
-        actions[1] = new ShowAllItemsAction(1, "Showing all items: ");
-        actions[2] = new EditItemAction(2, "Editing item: ");
-        actions[3] = new DeleteItemAction(3, "Deleting item: ");
-        actions[4] = new FindItemByIdAction(4, "Starting item search by ID: ");
-        actions[5] = new FindItemsByNameAction(5, "Starting item search by name: ");
-        actions[6] = new ExitAction(6, "Exiting application...");
+        actions.add(new AddNewItemAction(0, "Adding item to tracker: "));
+        actions.add(new ShowAllItemsAction(1, "Showing all items: "));
+        actions.add(new EditItemAction(2, "Editing item: "));
+        actions.add(new DeleteItemAction(3, "Deleting item: "));
+        actions.add(new FindItemByIdAction(4, "Starting item search by ID: "));
+        actions.add(new FindItemsByNameAction(5, "Starting item search by name: "));
+        actions.add(new ExitAction(6, "Exiting application..."));
     }
 
-    public int[] getActionsRange() {
-        int[] result = new int[actions.length];
-        for (int i = 0; i < actions.length; i++) {
-            result[i] = actions[i].getKey();
+    public ArrayList<Integer> getActionsRange() {
+        ArrayList<Integer> result = new ArrayList<>();
+        for (int i = 0; i < actions.size(); i++) {
+            result.add(actions.get(i).getKey());
         }
         return result;
     }
 
     public void start() {
         BaseAction lastAction = null;
-        while (lastAction != actions[6]) {
+        while (lastAction != actions.get(6)) {
             this.showMenu();
             int answer = this.input.ask("Выберите пункт меню: ", getActionsRange());
 
-            lastAction = actions[answer];
+            lastAction = actions.get(answer);
             System.out.println(lastAction.info());
             lastAction.execute();
         }
@@ -146,11 +147,13 @@ public class TrackerMenu {
 
         @Override
         public void execute() {
-            Item[] result = tracker.findByName(
+            ArrayList<Item> result = tracker.findByName(
                     input.ask("Enter task name for search: ")
             );
 
-            System.out.println(Arrays.toString(result));
+            for (Item item : result) {
+                System.out.println(item);
+            }
         }
     }
 

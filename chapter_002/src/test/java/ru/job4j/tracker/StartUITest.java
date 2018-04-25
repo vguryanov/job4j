@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 import static org.hamcrest.core.Is.is;
@@ -25,16 +26,24 @@ public class StartUITest {
         System.setOut(this.stdout);
     }
 
+    public StubInput getTestStubInput(String... inputLines) {
+        ArrayList<String> inputList = new ArrayList<>();
+        for (String s : inputLines) {
+            inputList.add(s);
+        }
+        return new StubInput(inputList);
+    }
+
     @Test
     public void whenUserAddItemThenTrackerHasNewItemWithSameName() {
         Tracker tracker = new Tracker();     // создаём Tracker
         Input input = new ValidatedInput(
-                new StubInput(
+                getTestStubInput(
                         new String[]{"0", "test name", "desc", "6"}
                 )
         );   //создаём StubInput с последовательностью действий
         new StartUI(input, tracker).init();     //   создаём StartUI и вызываем метод init()
-        assertThat(tracker.getAll()[0].getName(), is("test name")); // проверяем, что нулевой элемент массива в трекере содержит имя, введённое при эмуляции.
+        assertThat(tracker.getAll().get(0).getName(), is("test name")); // проверяем, что нулевой элемент массива в трекере содержит имя, введённое при эмуляции.
     }
 
     @Test
@@ -45,7 +54,7 @@ public class StartUITest {
         Item item = tracker.add(new Item("test name 1", "test desc", 1));
         //создаём StubInput с последовательностью действий
         Input input = new ValidatedInput(
-                new StubInput(
+                getTestStubInput(
                         new String[]{"2", item.getId(), "test name 2", "desc", "6"}
                 )
         );
@@ -60,7 +69,7 @@ public class StartUITest {
         Tracker testTracker = new Tracker();
         Item testItem = testTracker.add(new Item("test name 1", "test desc", 1));
         Input input = new ValidatedInput(
-                new StubInput(
+                getTestStubInput(
                         new String[]{"3", testItem.getId(), "6"}
                 )
         );
@@ -75,7 +84,8 @@ public class StartUITest {
         Tracker testTracker = new Tracker();
         Item testItem = testTracker.add(new Item("test name 1", "test desc", 1));
         Input input = new ValidatedInput(
-                new StubInput(new String[]{"1", "6"}
+                getTestStubInput(
+                        new String[]{"1", "6"}
                 )
         );
         new StartUI(input, testTracker).init();
@@ -91,7 +101,8 @@ public class StartUITest {
         Tracker testTracker = new Tracker();
         Item testItem = testTracker.add(new Item("test name 1", "test desc", 1));
         Input input = new ValidatedInput(
-                new StubInput(new String[]{"4", testItem.getId(), "6"}
+                getTestStubInput(
+                        new String[]{"4", testItem.getId(), "6"}
                 )
         );
         new StartUI(input, testTracker).init();
@@ -107,7 +118,8 @@ public class StartUITest {
         Tracker testTracker = new Tracker();
         Item testItem = testTracker.add(new Item("test name 1", "test desc", 1));
         Input input = new ValidatedInput(
-                new StubInput(new String[]{"5", testItem.getName(), "6"}
+                getTestStubInput(
+                        new String[]{"5", testItem.getName(), "6"}
                 )
         );
         new StartUI(input, testTracker).init();
@@ -121,9 +133,13 @@ public class StartUITest {
         redirectOutput();
 
         ValidatedInput input = new ValidatedInput(
-                new StubInput(new String[]{"invalid", "0"})
+                getTestStubInput(new String[]{"invalid", "0"})
         );
-        input.ask("Введите пункт меню: ", new int[]{0});
+
+        ArrayList<Integer> range = new ArrayList<>();
+        range.add(0);
+
+        input.ask("Введите пункт меню: ", range);
         assertThat(
                 this.out.toString(),
                 is(
