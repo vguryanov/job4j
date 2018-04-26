@@ -40,9 +40,12 @@ public class User {
         if (!(obj instanceof User)) {
             throw new IllegalArgumentException();
         }
-
         User object = (User) obj;
-
         return this.id == object.id && this.name.equals(object.getName()) && this.city.equals(object.getCity());
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 }
