@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class ConvertList2Array {
     public int[][] toArray(List<Integer> list, int rows) {
-        int cells = list.size() / rows + (list.size() % rows > 0 ? 1 : 0);
+        int cells = (int) Math.ceil((double) list.size() / rows);
         int[][] result = new int[rows][cells];
 
         for (int i = 0, listIndex = 0; i < rows; i++) {
