@@ -11,8 +11,8 @@ public class ListCompare implements Comparator<String> {
         int len1 = left.toCharArray().length;
         int len2 = right.toCharArray().length;
         int lim = Math.min(len1, len2);
-        char[] v1 = left.toCharArray();
-        char[] v2 = right.toCharArray();
+        char v1[] = left.toCharArray();
+        char v2[] = right.toCharArray();
 
         int k = 0;
         while (k < lim) {
@@ -23,7 +23,6 @@ public class ListCompare implements Comparator<String> {
             }
             k++;
         }
-
         return len1 - len2;
     }
 }
