@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by User2 on 24.04.2018.
  */
-public class ConvertList2Array {
+    public class ConvertList2Array {
     public int[][] toArray(List<Integer> list, int rows) {
         int cells = (int) Math.ceil((double) list.size() / rows);
         int[][] result = new int[rows][cells];
