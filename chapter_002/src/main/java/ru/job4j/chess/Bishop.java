@@ -11,31 +11,21 @@ public class Bishop extends Figure {
     @Override
     public CellCoordinate[] getWay(CellCoordinate source, CellCoordinate dest) throws ImpossibleMoveException {
         LinkedList<CellCoordinate> result = new LinkedList<>();
-        boolean isDirectionFound = false;
+        boolean isDestinationAchieved = false;
 
-        int[][] directions = new int[][]{
-                {1, 1},
-                {-1, 1},
-                {-1, -1},
-                {1, -1}
-        };
+        int xDirection = Integer.compare(dest.getX(), source.getX());
+        int yDirection = Integer.compare(dest.getY(), source.getY());
 
-        for (int i = 0; i < directions.length && !isDirectionFound; i++) {
-            for (int x = source.getX(), y = source.getY(); x >= 0 && y >= 0 && x < Board.getSIZE() && y < Board.getSIZE(); x += directions[i][0], y += directions[i][1]) {
-                if (isDirectionFound) {
-                    result.add(new CellCoordinate(x, y));
-                    if (x == dest.getX() && y == dest.getY()) {
-                        break;
-                    }
-                } else if (dest.getX() == x && dest.getY() == y) {
-                    isDirectionFound = true;
-                    x = source.getX();
-                    y = source.getY();
-                }
+        for (int x = source.getX() + xDirection, y = source.getY() + yDirection;
+             x >= 0 && y >= 0 && x < Board.getSIZE() && y < Board.getSIZE() && !isDestinationAchieved;
+             x += xDirection, y += yDirection) {
+            result.add(new CellCoordinate(x, y));
+            if (x == dest.getX() && y == dest.getY()) {
+                isDestinationAchieved = true;
             }
         }
 
-        if (!isDirectionFound) {
+        if (!isDestinationAchieved) {
             throw new ImpossibleMoveException();
         }
         return result.toArray(new CellCoordinate[result.size()]);
