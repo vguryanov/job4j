@@ -23,7 +23,6 @@ public class ListCompare implements Comparator<String> {
             }
             k++;
         }
-
         return len1 - len2;
     }
 }
