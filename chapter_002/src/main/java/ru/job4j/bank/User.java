@@ -92,4 +92,9 @@ public class User {
         result = 31 * result + getPassport().hashCode();
         return result;
     }
+
+    @Override
+    public String toString() {
+        return String.format("[%s : %s]", name, passport);
+    }
 }

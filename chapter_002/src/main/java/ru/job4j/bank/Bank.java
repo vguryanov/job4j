@@ -1,5 +1,6 @@
 package ru.job4j.bank;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -8,27 +9,24 @@ import java.util.Set;
  */
 public class Bank {
     private static String bankInfo;
-    private static Set<User> addedUsers = new HashSet<>();
+    private Set<User> addedUsers = new HashSet<>();
 
-    private Bank() {
-    }
-
-    public static Set<User> getAddedUsers() {
+    public Set<User> getAddedUsers() {
         return addedUsers;
     }
 
-    public static boolean addUser(User user) {
+    public boolean addUser(User user) {
         return addedUsers.add(user);
     }
 
-    public static String addAccountToUser(String passport) throws IllegalArgumentException {
+    public String addAccountToUser(String passport) throws IllegalArgumentException {
         if (passport == null) {
             throw new IllegalArgumentException();
         }
         return getUserByPassport(passport).addAccount(new Bank.Account());
     }
 
-    public static User getUserByPassport(String passport) throws IllegalArgumentException {
+    public User getUserByPassport(String passport) throws IllegalArgumentException {
         for (User user : addedUsers) {
             if (user.getPassport().equals(passport)) {
                 return user;
@@ -37,7 +35,7 @@ public class Bank {
         throw new IllegalArgumentException();
     }
 
-    public static boolean transferMoney(String srcPassport, String srcRequisites, String destPassport, String dstRequisites, double amount) {
+    public boolean transferMoney(String srcPassport, String srcRequisites, String destPassport, String dstRequisites, double amount) {
         User source = getUserByPassport(srcPassport);
         User dest = getUserByPassport(destPassport);
         if (!source.isMoneyAvailableOnAccount(amount, srcRequisites)) {
@@ -49,7 +47,7 @@ public class Bank {
         return true;
     }
 
-    public static void delete(User user) {
+    public void deleteUser(User user) {
         user.deleteAccounts();
         addedUsers.remove(user);
     }
