@@ -12,7 +12,7 @@ import static org.hamcrest.core.Is.is;
  */
 public class DepartmentsSetTest {
     @Test
-    public void addingAndSorting() {
+    public void addingAndSortingAscending() {
         DepartmentsSet set = new DepartmentsSet();
         set.addAll(Arrays.asList(
                 "K2\\SK1\\SSK1",
@@ -32,6 +32,30 @@ public class DepartmentsSetTest {
                 + "K2\\SK1, "
                 + "K2\\SK1\\SSK1, "
                 + "K2\\SK1\\SSK2]";
+        assertThat(result, is(expected));
+    }
+
+    @Test
+    public void addingAndSortingDescending() {
+        DepartmentsSet set = new DepartmentsSet();
+        set.addAll(Arrays.asList(
+                "K2\\SK1\\SSK1",
+                "K1\\SK1\\SSK2",
+                "K2\\SK1",
+                "K1\\SK2",
+                "K1\\SK1",
+                "K2\\SK1\\SSK2",
+                "K1\\SK1\\SSK1"));
+        String result = set.descendingSet().toString();
+        String expected = "[K2, "
+                + "K2\\SK1, "
+                + "K2\\SK1\\SSK2, "
+                + "K2\\SK1\\SSK1, "
+                + "K1, "
+                + "K1\\SK2, "
+                + "K1\\SK1, "
+                + "K1\\SK1\\SSK2, "
+                + "K1\\SK1\\SSK1]";
         assertThat(result, is(expected));
     }
 }
