@@ -54,7 +54,4 @@ public class MergeSortedIntArray {
     public String toString() {
         return Arrays.toString(values);
     }
-
-    public static void main(String[] args) {
-    }
 }
