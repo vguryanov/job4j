@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by User2 on 07.05.2018.
+ * Class that imitates file system
  */
 public class FileSystem {
     private static Set<String> files = new HashSet<>();

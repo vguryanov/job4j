@@ -6,10 +6,19 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Created by User2 on 07.05.2018.
+ * Contains main logic. Scan filesystem, then compares scanned files list with files list saved on last scanning.
+ * If some files have been modified then last modifications list will be rewritten.
  */
 public class ModificationsRegistry {
+    /**
+     * Field that keeps map with file paths and their last modifications types
+     */
     private Map<String, FileStatus> lastModifications = new HashMap<>();
+
+    /**
+     * Field that contains set of files saved on last filesystem scan. Needed for comparison of file statuses during
+     * scanning for files modifications.
+     */
     private Set<String> lastFileSystemSnapshot = new HashSet<>();
 
     public void scanFileSystemForModifications() {
