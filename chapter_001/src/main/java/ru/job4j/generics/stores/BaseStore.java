@@ -11,7 +11,11 @@ import java.util.Map;
  * Created by User2 on 09.05.2018.
  */
 public class BaseStore<T extends BaseClass> implements Store<T> {
-    private SimpleArray<T> objects = new SimpleArray<>();
+    private SimpleArray<T> objects;
+
+    public BaseStore(int capacity) {
+        this.objects = new SimpleArray<T>(capacity);
+    }
 
     @Override
     public void add(T model) {
@@ -32,7 +36,7 @@ public class BaseStore<T extends BaseClass> implements Store<T> {
     @Override
     public boolean delete(String id) {
         try {
-            objects.remove(Integer.parseInt(id));
+            objects.delete(Integer.parseInt(id));
             return true;
         } catch (NumberFormatException e) {
             e.printStackTrace();
