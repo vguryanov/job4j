@@ -3,6 +3,7 @@ package ru.job4j.list;
 public class SimpleLinkedList<E> {
     protected int size;
     protected Node<E> first;
+    protected int modCount;
 
     /**
      * Метод вставляет в начало списка данные.
@@ -12,6 +13,7 @@ public class SimpleLinkedList<E> {
         newNode.next = this.first;
         this.first = newNode;
         this.size++;
+        modCount++;
     }
 
     /**
@@ -21,6 +23,7 @@ public class SimpleLinkedList<E> {
         Node<E> removedNode = this.first;
         this.first = removedNode.next;
         size--;
+        modCount++;
         return removedNode.date;
     }
 
@@ -28,11 +31,15 @@ public class SimpleLinkedList<E> {
      * Метод получения элемента по индексу.
      */
     public E get(int index) {
+        return getNode(index).date;
+    }
+
+    protected Node<E> getNode(int index) {
         Node<E> result = this.first;
         for (int i = 0; i < index; i++) {
             result = result.next;
         }
-        return result.date;
+        return result;
     }
 
     /**

@@ -8,18 +8,21 @@ import java.util.NoSuchElementException;
  * Created by User2 on 12.05.2018.
  */
 public class LinkedListContainer<E> extends SimpleLinkedList<E> implements Iterable<E> {
-    private int modCount;
-
     @Override
     public void add(E date) {
         super.add(date);
-        modCount++;
     }
 
-    @Override
-    public E delete() {
+    public E removeLast() {
         modCount++;
-        return super.delete();
+        Node removedNode = getNode(getSize() - 1);
+        if (size == 1) {
+            first = null;
+        } else {
+            getNode(getSize() - 2).next = null;
+        }
+        size--;
+        return (E) removedNode.date;
     }
 
     @Override
