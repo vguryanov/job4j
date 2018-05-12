@@ -34,7 +34,7 @@ public class SimpleLinkedList<E> {
         return getNode(index).date;
     }
 
-    protected Node<E> getNode(int index) {
+    public Node<E> getNode(int index) {
         Node<E> result = this.first;
         for (int i = 0; i < index; i++) {
             result = result.next;
@@ -47,6 +47,35 @@ public class SimpleLinkedList<E> {
      */
     public int getSize() {
         return this.size;
+    }
+
+
+    public boolean hasCycle() {
+        if (first == null) {
+            return false;
+        }
+
+        Node slowCursor = first;
+        Node fastCursor = first.next;
+        while (fastCursor != null && slowCursor != null) {
+            if (fastCursor == slowCursor) {
+                return true;
+            }
+            slowCursor = slowCursor.next;
+            fastCursor = fastCursor.next.next;
+        }
+        return false;
+    }
+
+    public boolean checkForCycleUsingSize() {
+        Node cursor = first;
+        for (int i = 0; i <= size; i++) {
+            if (cursor == null) {
+                return false;
+            }
+            cursor = cursor.next;
+        }
+        return true;
     }
 
     /**
