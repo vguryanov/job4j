@@ -1,8 +1,8 @@
 package ru.job4j.list;
 
 public class SimpleLinkedList<E> {
-    private int size;
-    private Node<E> first;
+    protected int size;
+    protected Node<E> first;
 
     /**
      * Метод вставляет в начало списка данные.
@@ -45,7 +45,7 @@ public class SimpleLinkedList<E> {
     /**
      * Класс предназначен для хранения данных.
      */
-    private static class Node<E> {
+    protected static class Node<E> {
         E date;
         Node<E> next;
 
