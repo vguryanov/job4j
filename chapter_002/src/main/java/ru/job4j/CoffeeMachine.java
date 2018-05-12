@@ -6,14 +6,7 @@ import java.util.*;
  * Created by User2 on 03.05.2018.
  */
 public class CoffeeMachine {
-    ArrayList<Integer> cash = new ArrayList<>();
-
-    public CoffeeMachine(int... cash) {
-        for (int i : cash) {
-            this.cash.add(i);
-        }
-        Collections.sort(this.cash, Collections.reverseOrder());
-    }
+    private int[] cashValues = new int[]{10, 5, 2, 1};
 
     public Integer[] giveChange(int moneyTaken, int price) throws IllegalArgumentException {
         if (moneyTaken < price) {
@@ -21,35 +14,19 @@ public class CoffeeMachine {
         }
 
         ArrayList<Integer> result = new ArrayList<>();
-        ArrayList<Integer> usedCash = new ArrayList<>();
         if (moneyTaken == price) {
             result.add(0);
         } else {
             int changeAmount = moneyTaken - price;
-            for (int shiftIndex = 0; changeAmount != 0 && shiftIndex < cash.size(); shiftIndex++) {
-                for (int i = shiftIndex; changeAmount != 0 && i < cash.size(); i++) {
-                    int value = cash.get(i);
-                    if (value <= changeAmount) {
-                        changeAmount -= value;
-                        result.add(value);
-                        usedCash.add(value);
-                    }
+            int cashValuesIndex = 0;
+            while (changeAmount > 0) {
+                while (changeAmount >= cashValues[cashValuesIndex]) {
+                    result.add(cashValues[cashValuesIndex]);
+                    changeAmount -= cashValues[cashValuesIndex];
                 }
-                if (changeAmount == 0) {
-                    removeCash(usedCash);
-                } else {
-                    changeAmount = moneyTaken - price;
-                    result.clear();
-                    usedCash.clear();
-                }
+                cashValuesIndex++;
             }
         }
         return result.toArray(new Integer[result.size()]);
-    }
-
-    public void removeCash(ArrayList<Integer> cash) {
-        for (int i : cash) {
-            this.cash.remove(this.cash.indexOf(i));
-        }
     }
 }

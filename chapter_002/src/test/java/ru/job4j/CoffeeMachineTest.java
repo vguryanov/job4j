@@ -11,9 +11,9 @@ import static org.hamcrest.core.Is.is;
 public class CoffeeMachineTest {
     @Test
     public void giveChange() throws Exception {
-        CoffeeMachine testCoffeeMachine = new CoffeeMachine(2, 5, 2, 5, 2);
-        Integer[] result = testCoffeeMachine.giveChange(12, 1);
-        Integer[] expected = new Integer[]{5, 2, 2, 2};
+        CoffeeMachine testCoffeeMachine = new CoffeeMachine();
+        Integer[] result = testCoffeeMachine.giveChange(73, 35);
+        Integer[] expected = new Integer[]{10, 10, 10, 5, 2, 1};
         assertThat(result, is(expected));
     }
 }
