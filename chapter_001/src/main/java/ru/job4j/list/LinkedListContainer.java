@@ -8,6 +8,7 @@ import java.util.NoSuchElementException;
  * Created by User2 on 12.05.2018.
  */
 public class LinkedListContainer<E> extends SimpleLinkedList<E> implements Iterable<E> {
+
     @Override
     public void add(E date) {
         super.add(date);
@@ -33,7 +34,7 @@ public class LinkedListContainer<E> extends SimpleLinkedList<E> implements Itera
 
             @Override
             public boolean hasNext() {
-                return currentNode == null || currentNode.next != null;
+                return size > 0 && (currentNode == null || currentNode.next != null);
             }
 
             @Override
