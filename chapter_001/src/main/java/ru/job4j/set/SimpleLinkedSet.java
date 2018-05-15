@@ -16,13 +16,8 @@ public class SimpleLinkedSet<E> implements Iterable<E> {
         }
     }
 
-    private boolean contains(E e) {
-        for (E element : elementData) {
-            if (element.equals(elementData)) {
-                return true;
-            }
-        }
-        return false;
+    public boolean contains(E e) {
+        return elementData.contains(e);
     }
 
     @Override

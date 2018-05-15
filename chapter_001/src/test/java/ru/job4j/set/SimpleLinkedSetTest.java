@@ -40,4 +40,9 @@ public class SimpleLinkedSetTest {
             templateStringsCursor--;
         }
     }
+
+    @Test
+    public void afterAddingThreeListContainsReturnTrueForThree() throws Exception {
+        assertTrue("afterAddingThreeListContainsReturnTrueForThree test failed", testSet.contains("C"));
+    }
 }

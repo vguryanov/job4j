@@ -51,4 +51,9 @@ public class SimpleLinkedListTest {
         makeCycle();
         assertTrue("test failed", list.checkForCycleUsingSize());
     }
+
+    @Test
+    public void afterAddingThreeListContainsReturnTrueForThree() throws Exception {
+        assertTrue("afterAddingThreeListContainsReturnTrueForThree test failed", list.contains(3));
+    }
 }

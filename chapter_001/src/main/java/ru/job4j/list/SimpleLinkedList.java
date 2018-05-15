@@ -42,6 +42,17 @@ public class SimpleLinkedList<E> {
         return result;
     }
 
+    public boolean contains(E e) {
+        Node<E> cursor = first;
+        while (cursor != null) {
+            if (cursor.date.equals(e)) {
+                return true;
+            }
+            cursor = cursor.next;
+        }
+        return false;
+    }
+
     /**
      * Метод получения размера коллекции.
      */
