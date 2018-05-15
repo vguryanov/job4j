@@ -34,6 +34,49 @@ public class DynamicArray<E> implements Iterable<E> {
         return size;
     }
 
+    public boolean contains(E e) {
+        for (int i = 0; i < size(); i++) {
+            if (container[i].equals(e)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public E delete(int index) {
+        modCount++;
+        E oldValue = (E) container[index];
+        System.arraycopy(container, index + 1, container, index, container.length - index - 1);
+        container[container.length - 1] = null;
+        size--;
+        return oldValue;
+    }
+
+    public E delete(E e) throws NoSuchElementException {
+        return delete(getIndexOf(e));
+    }
+
+    private int getIndexOf(E e) throws NoSuchElementException {
+        for (int i = 0; i < size; i++) {
+            if (e.equals(this.container[i])) {
+                return i;
+            }
+        }
+        throw new NoSuchElementException();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < size(); i++) {
+            if (container[i] != null) {
+                result.append(" [" + container[i].toString() + "] ");
+            }
+        }
+
+        return result.toString();
+    }
+
     @Override
     public Iterator<E> iterator() {
         return new Iterator<E>() {

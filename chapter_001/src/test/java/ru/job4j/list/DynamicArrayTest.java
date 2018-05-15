@@ -40,4 +40,18 @@ public class DynamicArrayTest {
         testArray.add("");
         iterator.next();
     }
+
+    @Test
+    public void contains() throws Exception {
+        assertTrue("", testArray.contains("e1"));
+    }
+
+    @Test
+    public void delete() throws Exception {
+        System.out.println(testArray);
+        System.out.println(testArray.size());
+        testArray.delete("e4");
+        System.out.println(testArray);
+        System.out.println(testArray.size());
+    }
 }
