@@ -10,6 +10,8 @@ import java.util.Set;
  * If some files have been modified then last modifications list will be rewritten.
  */
 public class ModificationsRegistry {
+    private FileSystem fileSystem;
+
     /**
      * Field that keeps map with file paths and their last modifications types
      */
@@ -21,9 +23,13 @@ public class ModificationsRegistry {
      */
     private Set<String> lastFileSystemSnapshot = new HashSet<>();
 
+    public ModificationsRegistry(FileSystem fileSystem) {
+        this.fileSystem = fileSystem;
+    }
+
     public void scanFileSystemForModifications() {
         Map<String, FileStatus> modifications = new HashMap<>();
-        Set<String> scannedFilePaths = FileSystem.getFiles();
+        Set<String> scannedFilePaths = fileSystem.getFiles();
         for (String filePath : scannedFilePaths) {
             if (!lastFileSystemSnapshot.contains(filePath)) {
                 modifications.put(filePath, FileStatus.Added);

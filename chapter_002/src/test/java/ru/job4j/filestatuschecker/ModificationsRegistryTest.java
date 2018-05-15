@@ -1,6 +1,7 @@
 package ru.job4j.filestatuschecker;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -10,16 +11,23 @@ import static org.hamcrest.core.Is.is;
  * Created by User2 on 07.05.2018.
  */
 public class ModificationsRegistryTest {
+    private FileSystem testFileSystem;
+
+    @Before
+    public void setUp(){
+        testFileSystem = new FileSystem();
+    }
+
     @After
     public void after() {
-        FileSystem.clear();
+        testFileSystem.clear();
     }
 
     @Test
     public void ifAddingThenStatusOfModificationIsAdded() {
         String testFilePath = "file1";
-        FileSystem.add(testFilePath);
-        ModificationsRegistry testRegistry = new ModificationsRegistry();
+        testFileSystem.add(testFilePath);
+        ModificationsRegistry testRegistry = new ModificationsRegistry(testFileSystem);
         testRegistry.scanFileSystemForModifications();
         FileStatus result = testRegistry.getLastModificationStatusOfFile(testFilePath);
         FileStatus expected = FileStatus.Added;
@@ -29,10 +37,10 @@ public class ModificationsRegistryTest {
     @Test
     public void ifRemovingThenStatusOfModificationIsRemoved() {
         String testFilePath = "file1";
-        FileSystem.add(testFilePath);
-        ModificationsRegistry testRegistry = new ModificationsRegistry();
+        testFileSystem.add(testFilePath);
+        ModificationsRegistry testRegistry = new ModificationsRegistry(testFileSystem);
         testRegistry.scanFileSystemForModifications();
-        FileSystem.removeFiles(testFilePath);
+        testFileSystem.removeFiles(testFilePath);
         testRegistry.scanFileSystemForModifications();
         FileStatus result = testRegistry.getLastModificationStatusOfFile(testFilePath);
         FileStatus expected = FileStatus.Removed;

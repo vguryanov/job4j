@@ -10,22 +10,19 @@ import java.util.Set;
 public class FileSystem {
     private static Set<String> files = new HashSet<>();
 
-    private FileSystem() {
-    }
-
-    public static void add(String... filePaths) {
+    public void add(String... filePaths) {
         files.addAll(Arrays.asList(filePaths));
     }
 
-    public static Set<String> getFiles() {
+    public Set<String> getFiles() {
         return new HashSet<>(files);
     }
 
-    public static boolean removeFiles(String... filePaths) {
+    public boolean removeFiles(String... filePaths) {
         return files.removeAll(Arrays.asList(filePaths));
     }
 
-    public static void clear() {
+    public void clear() {
         files.clear();
     }
 }
