@@ -16,14 +16,8 @@ public class MergeSortedIntArray {
         sortingMerge(array1, array2);
     }
 
-    public int[] getValues() {
-        return values;
-    }
-
     private void sortingMerge(int[] array1, int[] array2) {
         int[] result = new int[array1.length + array2.length];
-        sort(array1);
-        sort(array2);
 
         for (int i = 0, j = 0, k = 0; k < array1.length + array2.length; k++) {
             if (i < array1.length && j >= array2.length || array1[i] < array2[j]) {
@@ -35,19 +29,6 @@ public class MergeSortedIntArray {
             }
         }
         values = result;
-    }
-
-    private int[] sort(int[] array) {
-        for (int i = 0; i < array.length; i++) {
-            for (int j = 1; j < (array.length - i); j++) {
-                if (array[j - 1] > array[j]) {
-                    int temp = array[j - 1];
-                    array[j - 1] = array[j];
-                    array[j] = temp;
-                }
-            }
-        }
-        return array;
     }
 
     @Override

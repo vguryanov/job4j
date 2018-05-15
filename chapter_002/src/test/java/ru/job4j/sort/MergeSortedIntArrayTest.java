@@ -2,6 +2,8 @@ package ru.job4j.sort;
 
 import org.junit.Test;
 
+import java.util.Arrays;
+
 import static org.junit.Assert.*;
 import static org.hamcrest.core.Is.is;
 
@@ -11,10 +13,10 @@ import static org.hamcrest.core.Is.is;
 public class MergeSortedIntArrayTest {
     @Test
     public void sortedMergeTest() {
-        int[] array1 = new int[]{1, 5, 3, 0, 42, 232, -1};
-        int[] array2 = new int[]{11, 2, 6, 4};
-        int[] result = new MergeSortedIntArray(array1, array2).getValues();
-        int[] expected = new int[]{-1, 0, 1, 2, 3, 4, 5, 6, 11, 42, 232};
+        int[] array1 = new int[]{1, 3, 42, 232};
+        int[] array2 = new int[]{-1, 2, 4, 5, 28};
+        String result = new MergeSortedIntArray(array1, array2).toString();
+        String expected = Arrays.toString(new int[]{-1, 1, 2, 3, 4, 5, 28, 42, 232});
         assertThat(result, is(expected));
     }
 }
