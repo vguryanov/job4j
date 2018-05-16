@@ -14,7 +14,7 @@ public class ModificationsRegistryTest {
     private FileSystem testFileSystem;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         testFileSystem = new FileSystem();
     }
 
