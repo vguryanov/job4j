@@ -1,6 +1,7 @@
 package ru.job4j.bank;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,7 +13,7 @@ public class Bank {
     private Set<User> addedUsers = new HashSet<>();
 
     public Set<User> getAddedUsers() {
-        return addedUsers;
+        return Collections.unmodifiableSet(addedUsers);
     }
 
     public boolean addUser(User user) {

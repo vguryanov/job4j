@@ -40,7 +40,7 @@ public class User {
     }
 
     public Set<Bank.Account> getAccounts() {
-        return accounts;
+        return Collections.unmodifiableSet(accounts);
     }
 
     public boolean deleteAccount(String requisites) {
