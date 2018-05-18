@@ -20,7 +20,6 @@ public class UserTest {
         Map<User, Object> userMap = new HashMap<>();
         userMap.put(user1, null);
         userMap.put(user2, null);
-
         System.out.println(userMap);
     }
 }
