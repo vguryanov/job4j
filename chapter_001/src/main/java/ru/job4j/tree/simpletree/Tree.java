@@ -90,7 +90,6 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
             for (Node<E> leaf : result.leaves()) {
                 data.offer(leaf);
             }
-
             return result;
         }
     }
