@@ -1,4 +1,4 @@
-package ru.job4j.tree;
+package ru.job4j.tree.simpletree;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -43,20 +43,6 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
             }
         }
         return Optional.empty();
-    }
-
-    private Iterator<Node<E>> nodeIterator() {
-        return new Iterator<Node<E>>() {
-            @Override
-            public boolean hasNext() {
-                return false;
-            }
-
-            @Override
-            public Node<E> next() {
-                return null;
-            }
-        };
     }
 
     public boolean isBinary() {

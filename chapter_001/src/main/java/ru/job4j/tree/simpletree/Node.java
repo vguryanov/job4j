@@ -1,4 +1,4 @@
-package ru.job4j.tree;
+package ru.job4j.tree.simpletree;
 
 import java.util.ArrayList;
 import java.util.List;

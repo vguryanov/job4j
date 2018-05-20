@@ -1,8 +1,9 @@
-package ru.job4j.tree;
+package ru.job4j.tree.simpletree;
 
 
 import org.junit.Before;
 import org.junit.Test;
+import ru.job4j.tree.simpletree.Tree;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
