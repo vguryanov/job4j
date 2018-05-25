@@ -26,7 +26,7 @@ public class WordIndex {
 
     public void loadFile(String filename) {
         try {
-            fileContent = new String(Files.readAllBytes(Paths.get(filename)));
+            fileContent = new String(Files.readAllBytes(Paths.get(filename)), "UTF-8");
         } catch (IOException e) {
             e.printStackTrace();
         }
