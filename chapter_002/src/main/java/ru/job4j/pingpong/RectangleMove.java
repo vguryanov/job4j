@@ -16,12 +16,13 @@ public class RectangleMove implements Runnable {
 
     @Override
     public void run() {
-        while (true) {
+        while (!Thread.currentThread().isInterrupted()) {
             move();
             try {
                 Thread.sleep(150);
             } catch (InterruptedException e) {
                 e.printStackTrace();
+                Thread.currentThread().interrupt();
             }
         }
     }
