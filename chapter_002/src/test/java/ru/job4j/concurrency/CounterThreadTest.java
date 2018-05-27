@@ -16,15 +16,13 @@ public class CounterThreadTest {
         boolean isResultExpected = true;
         Counter counter = null;
 
-        while (isResultExpected) {
-            counter = new Counter();
-            for (int i = 0; i < mainIterationNumber; i++) {
-                new CounterThread(counter, threadIterationNumber).start();
-            }
-            Thread.sleep(2000);
-            isResultExpected = counter.getValue() == expected;
+        counter = new Counter();
+        for (int i = 0; i < mainIterationNumber; i++) {
+            new CounterThread(counter, threadIterationNumber).start();
         }
+        Thread.sleep(2000);
+        isResultExpected = counter.getValue() == expected;
 
-        assertTrue(null, !isResultExpected);
+        assertTrue(null, isResultExpected);
     }
 }

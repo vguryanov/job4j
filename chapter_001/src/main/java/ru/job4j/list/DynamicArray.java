@@ -1,5 +1,7 @@
 package ru.job4j.list;
 
+import javax.annotation.concurrent.GuardedBy;
+import javax.annotation.concurrent.ThreadSafe;
 import java.util.Arrays;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
@@ -8,25 +10,28 @@ import java.util.NoSuchElementException;
 /**
  * Created by User2 on 10.05.2018.
  */
+
+@ThreadSafe
 public class DynamicArray<E> implements Iterable<E> {
+    @GuardedBy("this")
     private Object[] container = new Object[10];
     private int size = 0;
-    protected transient int modCount = 0;
+    private transient int modCount = 0;
 
-    private void ensureCapacity() {
+    private synchronized void ensureCapacity() {
         if (size == container.length) {
             modCount++;
             container = Arrays.copyOf(container, size + size / 2);
         }
     }
 
-    public boolean add(E e) {
+    public synchronized boolean add(E e) {
         ensureCapacity();
         container[size++] = e;
         return true;
     }
 
-    public E get(int index) {
+    public synchronized E get(int index) {
         return (E) container[index];
     }
 
@@ -34,7 +39,7 @@ public class DynamicArray<E> implements Iterable<E> {
         return size;
     }
 
-    public boolean contains(E e) {
+    public synchronized boolean contains(E e) {
         for (int i = 0; i < size(); i++) {
             if (container[i].equals(e)) {
                 return true;
@@ -43,7 +48,7 @@ public class DynamicArray<E> implements Iterable<E> {
         return false;
     }
 
-    public E delete(int index) {
+    public synchronized E delete(int index) {
         modCount++;
         E oldValue = (E) container[index];
         System.arraycopy(container, index + 1, container, index, container.length - index - 1);
@@ -56,7 +61,7 @@ public class DynamicArray<E> implements Iterable<E> {
         return delete(getIndexOf(e));
     }
 
-    private int getIndexOf(E e) throws NoSuchElementException {
+    private synchronized int getIndexOf(E e) throws NoSuchElementException {
         for (int i = 0; i < size; i++) {
             if (e.equals(this.container[i])) {
                 return i;
@@ -66,7 +71,7 @@ public class DynamicArray<E> implements Iterable<E> {
     }
 
     @Override
-    public String toString() {
+    public synchronized String toString() {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < size(); i++) {
             if (container[i] != null) {
@@ -90,17 +95,19 @@ public class DynamicArray<E> implements Iterable<E> {
 
             @Override
             public E next() {
-                checkForComodification();
-                int i = cursor;
-                if (i >= size) {
-                    throw new NoSuchElementException();
+                synchronized (DynamicArray.this) {
+                    checkForComodification();
+                    int i = cursor;
+                    if (i >= size) {
+                        throw new NoSuchElementException();
+                    }
+                    Object[] elementData = DynamicArray.this.container;
+                    if (i >= elementData.length) {
+                        throw new ConcurrentModificationException();
+                    }
+                    cursor = i + 1;
+                    return (E) elementData[i];
                 }
-                Object[] elementData = DynamicArray.this.container;
-                if (i >= elementData.length) {
-                    throw new ConcurrentModificationException();
-                }
-                cursor = i + 1;
-                return (E) elementData[i];
             }
 
             final void checkForComodification() {
