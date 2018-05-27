@@ -15,7 +15,7 @@ public class CounterThread extends Thread {
     @Override
     public void run() {
         for (int i = 0; i < iterationNumber; i++) {
-            counter.increaseCounter();
+            counter.increment();
         }
     }
 }

@@ -21,7 +21,7 @@ public class CounterThreadTest {
             for (int i = 0; i < mainIterationNumber; i++) {
                 new CounterThread(counter, threadIterationNumber).start();
             }
-            Thread.sleep(5000);
+            Thread.sleep(2000);
             isResultExpected = counter.getValue() == expected;
         }
 
