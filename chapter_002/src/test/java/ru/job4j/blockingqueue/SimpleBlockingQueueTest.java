@@ -24,16 +24,14 @@ public class SimpleBlockingQueueTest {
         Thread consumer = new Thread() {
             @Override
             public void run() {
-                while (true) {
+                while (!isInterrupted()) {
                     System.out.println(Thread.currentThread().getName() + " consume " + queue.poll());
                 }
             }
         };
 
         producer.start();
-        Thread.sleep(10);
-        producer.interrupt();
         consumer.start();
-        Thread.sleep(11);
+        Thread.sleep(20);
     }
 }

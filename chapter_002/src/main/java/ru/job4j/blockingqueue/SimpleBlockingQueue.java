@@ -15,8 +15,16 @@ public class SimpleBlockingQueue<T> {
     private Queue<T> queue = new LinkedList<>();
 
     public synchronized void offer(T value) {
+        if (queue.size() == 10) {
+            System.out.println(Thread.currentThread().getName() + " queue is full, waiting");
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         queue.offer(value);
-        notifyAll();
+        notify();
     }
 
     public synchronized T poll() {
@@ -28,6 +36,7 @@ public class SimpleBlockingQueue<T> {
                 e.printStackTrace();
             }
         }
+        notify();
         return queue.poll();
     }
 }
