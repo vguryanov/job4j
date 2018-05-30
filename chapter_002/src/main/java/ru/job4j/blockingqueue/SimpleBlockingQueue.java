@@ -36,7 +36,9 @@ public class SimpleBlockingQueue<T> {
                 e.printStackTrace();
             }
         }
+
+        T result = queue.poll();
         notify();
-        return queue.poll();
+        return result;
     }
 }
