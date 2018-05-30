@@ -21,7 +21,7 @@ public class UserStorage {
         return users.remove(user) != null;
     }
 
-    void transfer(int fromId, int toId, int amount) {
+    synchronized void transfer(int fromId, int toId, int amount) {
         users.get(fromId).addAmount(-amount);
         users.get(toId).addAmount(amount);
     }
