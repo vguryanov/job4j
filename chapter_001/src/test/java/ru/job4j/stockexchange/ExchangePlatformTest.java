@@ -19,6 +19,8 @@ public class ExchangePlatformTest {
     @Before
     public void setUp() throws Exception {
         exchangePlatform = new ExchangePlatform();
+        Offer.resetIdCounter();
+
         exchangePlatform.addEmitter(emitters[0]);
         exchangePlatform.addEmitter(emitters[1]);
         exchangePlatform.addEmitter(emitters[2]);

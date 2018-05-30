@@ -35,11 +35,11 @@ class ExchangePlatform {
 
     private boolean executeLastTask() {
         Task task = tasks.poll();
-        switch (task.type) {
+        switch (task.getType()) {
             case ADD:
-                return addOffer(task.offer);
+                return addOffer(task.getOffer());
             case REMOVE:
-                return removeOffer(task.offer);
+                return removeOffer(task.getOffer());
             default:
                 return false;
         }
@@ -72,11 +72,11 @@ class ExchangePlatform {
     }
 
     private boolean addOffer(Offer offer) {
-        return buckets.get(offer.emitterName).addOffer(offer);
+        return buckets.get(offer.getEmitterName()).addOffer(offer);
     }
 
     private boolean removeOffer(Offer o) {
-        return buckets.get(o.emitterName).removeOffer(o);
+        return buckets.get(o.getEmitterName()).removeOffer(o);
     }
 
     String getViewForEmitter(String emitterName) {
@@ -89,62 +89,6 @@ class ExchangePlatform {
             result.add(bucket.getView());
         }
         return result.toString();
-    }
-
-    private static class Task {
-        private Type type;
-        private Offer offer;
-
-        private enum Type {
-            ADD, REMOVE
-        }
-
-        private Task(Type type, Offer offer) {
-            this.type = type;
-            this.offer = offer;
-        }
-    }
-
-    public class Offer implements Comparable<Offer> {
-        private int id;
-        private int price, volume;
-        private OfferType type;
-        private String emitterName;
-
-        private Offer(int id, String emitterName) {
-            this.id = id;
-            this.emitterName = emitterName;
-        }
-
-        private Offer(OfferType type, int price, int volume, String emitterName) {
-            this.type = type;
-            this.id = ++offersIdCounter;
-            this.price = price;
-            this.volume = volume;
-            this.emitterName = emitterName;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) {
-                return true;
-            }
-            if (!(o instanceof Offer)) {
-                return false;
-            }
-            Offer offer = (Offer) o;
-            return id == offer.id;
-        }
-
-        @Override
-        public int hashCode() {
-            return id;
-        }
-
-        @Override
-        public int compareTo(Offer o) {
-            return Integer.compare(o.price, this.price);
-        }
     }
 
     private static class Bucket {
@@ -161,13 +105,13 @@ class ExchangePlatform {
 
         private boolean removeOffer(Offer o) {
             for (Offer offer : offersToBuy) {
-                if (offer.id == o.id) {
+                if (offer.getId() == o.getId()) {
                     offersToBuy.remove(offer);
                     return true;
                 }
             }
             for (Offer offer : offersToSell) {
-                if (offer.id == o.id) {
+                if (offer.getId() == o.getId()) {
                     offersToSell.remove(offer);
                     return true;
                 }
@@ -177,35 +121,35 @@ class ExchangePlatform {
 
         private boolean addOffer(Offer o) {
             if (checkPossibleDeal(o) > 0) {
-                TreeMultiset<Offer> resultedSet = o.type == OfferType.BUY ? offersToBuy : offersToSell;
+                TreeMultiset<Offer> resultedSet = o.getType() == OfferType.BUY ? offersToBuy : offersToSell;
                 return resultedSet.add(o);
             }
             return false;
         }
 
         private int checkPossibleDeal(Offer o) {
-            TreeMultiset<Offer> offersForDeal = o.type == OfferType.BUY ? offersToSell : offersToBuy;
+            TreeMultiset<Offer> offersForDeal = o.getType() == OfferType.BUY ? offersToSell : offersToBuy;
             BiPredicate<Offer, Offer> isDealPossible = (offer1, offer2) ->
-                    o.type == OfferType.BUY
-                            ? offer1.price >= offer2.price
-                            : offer1.price <= offer2.price;
+                    o.getType() == OfferType.BUY
+                            ? offer1.getPrice() >= offer2.getPrice()
+                            : offer1.getPrice() <= offer2.getPrice();
 
             ArrayList<Offer> offersForRemove = new ArrayList<>();
             for (Offer offer : offersForDeal) {
                 if (isDealPossible.test(o, offer)) {
-                    int dealVolume = Math.min(o.volume, offer.volume);
-                    o.volume -= dealVolume;
-                    offer.volume -= dealVolume;
-                    if (offer.volume == 0) {
+                    int dealVolume = Math.min(o.getVolume(), offer.getVolume());
+                    o.increaseVolume(-dealVolume);
+                    offer.increaseVolume(-dealVolume);
+                    if (offer.getVolume() == 0) {
                         offersForRemove.add(offer);
                     }
-                    if (o.volume == 0) {
+                    if (o.getVolume() == 0) {
                         break;
                     }
                 }
             }
             offersForDeal.removeAll(offersForRemove);
-            return o.volume;
+            return o.getVolume();
         }
 
         private String getView() {
@@ -217,18 +161,18 @@ class ExchangePlatform {
             }
             TreeMap<Integer, ViewContainer> result = new TreeMap<>(viewComparator);
             for (Offer o : offersToBuy) {
-                int price = o.price;
+                int price = o.getPrice();
                 if (!result.containsKey(price)) {
                     result.put(price, new ViewContainer());
                 }
-                result.get(price).bVolume += o.volume;
+                result.get(price).bVolume += o.getVolume();
             }
             for (Offer o : offersToSell) {
-                int price = o.price;
+                int price = o.getPrice();
                 if (!result.containsKey(price)) {
                     result.put(price, new ViewContainer());
                 }
-                result.get(price).sVolume += o.volume;
+                result.get(price).sVolume += o.getVolume();
             }
             view.add("\nSell\tPrice\tBuy");
             for (Map.Entry<Integer, ViewContainer> entry : result.entrySet()) {
