@@ -20,7 +20,7 @@ public class ParallelSearch {
     private final List<String> extensions;
 
     @GuardedBy("this")
-    private final BlockingQueue<Future<Path>> futures = new LinkedBlockingQueue<>();
+    private final List<Future<Path>> futures = new ArrayList<>();
 
     public ParallelSearch(String root, String text, List<String> exts) {
         this.root = root;

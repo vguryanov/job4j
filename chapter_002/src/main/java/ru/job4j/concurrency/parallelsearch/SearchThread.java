@@ -15,10 +15,10 @@ public class SearchThread extends Thread {
     private final Path pathSource;
     private final String text;
     private final List<String> extensions;
-    private final ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 2);
-    private final Queue<Future<Path>> result;
+    private final List<Future<Path>> result;
+    private final ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 2 - 1);
 
-    public SearchThread(String pathSource, String text, List<String> extensions, Queue<Future<Path>> result) {
+    public SearchThread(String pathSource, String text, List<String> extensions, List<Future<Path>> result) {
         this.pathSource = Paths.get(pathSource);
         this.text = text;
         this.extensions = extensions;
