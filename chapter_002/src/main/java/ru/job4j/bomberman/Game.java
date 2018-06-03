@@ -4,7 +4,7 @@ package ru.job4j.bomberman;
  * Created by User2 on 02.06.2018.
  */
 public class Game {
-    private volatile Board field;
+    private final Board field;
     private int heroX = 0;
     private int heroY = 0;
 
@@ -20,10 +20,18 @@ public class Game {
         @Override
         public void run() {
             field.lockCell(heroX, heroY);
-            while (true) {
-                field.unlockCell(heroX, heroY);
-                makeRandomMove();
-                field.lockCell(heroX, heroY);
+            while (!isInterrupted()) {
+                boolean isLockObtained = false;
+                int startX = heroX, startY = heroY;
+                while (!isLockObtained) {
+                    makeRandomMove();
+                    isLockObtained = field.tryLockCell(heroX, heroY);
+                    if (!isLockObtained) {
+                        heroX = startX;
+                        heroY = startY;
+                    }
+                }
+                field.unlockCell(startX, startY);
                 field.print();
             }
         }
@@ -54,9 +62,5 @@ public class Game {
                     break;
             }
         }
-    }
-
-    public static void main(String[] args) {
-        new Game(10).start();
     }
 }

@@ -1,5 +1,6 @@
 package ru.job4j.bomberman;
 
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
@@ -7,7 +8,7 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class Board {
     private int size;
-    private ReentrantLock[][] cells;
+    private final ReentrantLock[][] cells;
 
     public Board(int size) {
         this.size = size;
@@ -23,11 +24,20 @@ public class Board {
         return cells[y][x];
     }
 
-    public void lockCell(int x, int y){
+    public void lockCell(int x, int y) {
         cells[y][x].lock();
     }
 
-    public void unlockCell(int x, int y){
+    public boolean tryLockCell(int x, int y) {
+        try {
+            return cells[y][x].tryLock(500, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public void unlockCell(int x, int y) {
         cells[y][x].unlock();
     }
 
