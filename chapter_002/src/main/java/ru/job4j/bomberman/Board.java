@@ -41,6 +41,15 @@ public class Board {
         cells[y][x].unlock();
     }
 
+    public boolean move(Cell source, Cell dest) {
+        boolean result = this.tryLockCell(source.getX(), source.getY());
+        if (!result) {
+            return false;
+        }
+        this.unlockCell(source.getX(), source.getY());
+        return true;
+    }
+
     public int getSize() {
         return size;
     }
