@@ -9,6 +9,8 @@ import java.util.concurrent.locks.ReentrantLock;
 public class Board {
     private int size;
     private final ReentrantLock[][] cells;
+    private int heroX = 0;
+    private int heroY = 0;
 
     public Board(int size) {
         this.size = size;
@@ -41,15 +43,6 @@ public class Board {
         cells[y][x].unlock();
     }
 
-    public boolean move(Cell source, Cell dest) {
-        boolean result = this.tryLockCell(source.getX(), source.getY());
-        if (!result) {
-            return false;
-        }
-        this.unlockCell(source.getX(), source.getY());
-        return true;
-    }
-
     public int getSize() {
         return size;
     }
@@ -62,5 +55,68 @@ public class Board {
             System.out.println();
         }
         System.out.println();
+    }
+
+    public void start() {
+        new HeroMotionThread().start();
+    }
+
+    private class HeroMotionThread extends Thread {
+        private boolean isNew = true;
+
+        @Override
+        public void run() {
+            while (!isInterrupted()) {
+                if (isNew) {
+                    Board.this.lockCell(heroX, heroY);
+                    isNew = false;
+                }
+                move();
+            }
+        }
+
+        private void move() {
+            boolean isLockObtained = false;
+            int startX = heroX, startY = heroY;
+            while (!isLockObtained) {
+                makeRandomMove();
+                isLockObtained = Board.this.tryLockCell(heroX, heroY);
+                if (!isLockObtained) {
+                    heroX = startX;
+                    heroY = startY;
+                }
+            }
+            Board.this.unlockCell(startX, startY);
+            Board.this.print();
+        }
+
+        private int getRandomVector() {
+            return Math.random() > 0.5 ? -1 : 1;
+        }
+
+        private void makeRandomMove() {
+            switch (getRandomVector()) {
+                case -1:
+                    heroX += getRandomVector();
+                    if (heroX == size) {
+                        heroX -= 2;
+                    }
+                    if (heroX < 0) {
+                        heroX += 2;
+                    }
+                    break;
+                case 1:
+                    heroY += getRandomVector();
+                    if (heroY == size) {
+                        heroY -= 2;
+                    }
+                    if (heroY < 0) {
+                        heroY += 2;
+                    }
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
     }
 }
