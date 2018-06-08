@@ -2,7 +2,6 @@ package ru.job4j.pool;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
@@ -11,29 +10,38 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class ThreadPool {
     private static final int CORE_AMOUNT = Runtime.getRuntime().availableProcessors();
     private final List<Thread> threads = new LinkedList<>();
-    private final Queue<Runnable> tasks = new LinkedBlockingQueue<>(CORE_AMOUNT);
+    private final LinkedBlockingQueue<Runnable> tasks = new LinkedBlockingQueue<>();
 
     public ThreadPool() {
         for (int i = 0; i < CORE_AMOUNT; i++) {
-            threads.add(new ConsumerThread(this));
+            PoolThread p = new PoolThread();
+            threads.add(p);
+            p.start();
         }
     }
 
     public void work(Runnable job) throws InterruptedException {
         tasks.offer(job);
-        notifyAll();
-    }
-
-    public synchronized Runnable poll() throws InterruptedException {
-        if (tasks.isEmpty()) {
-            wait();
-        }
-        return tasks.poll();
     }
 
     public void shutdown() {
         for (Thread t : threads) {
             t.interrupt();
+        }
+    }
+
+    private class PoolThread extends Thread {
+        @Override
+        public void run() {
+            while (!isInterrupted()) {
+                try {
+                    tasks.take().run();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }finally {
+                    this.interrupt();
+                }
+            }
         }
     }
 }
