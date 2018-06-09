@@ -13,4 +13,8 @@ public class Game {
     public void start() {
         field.start();
     }
+
+    public void interrupt() {
+        field.interrupt();
+    }
 }

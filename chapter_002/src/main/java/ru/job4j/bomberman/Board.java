@@ -11,6 +11,7 @@ public class Board {
     private final ReentrantLock[][] cells;
     private int heroX = 0;
     private int heroY = 0;
+    private HeroMotionThread hero = new HeroMotionThread();
 
     public Board(int size) {
         this.size = size;
@@ -58,7 +59,11 @@ public class Board {
     }
 
     public void start() {
-        new HeroMotionThread().start();
+        hero.start();
+    }
+
+    public void interrupt() {
+        hero.interrupt();
     }
 
     private class HeroMotionThread extends Thread {
