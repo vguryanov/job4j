@@ -40,6 +40,7 @@ public class WordIndex {
     public void loadFile(File file) {
         try {
             fileContent = new String(Files.readAllBytes(file.toPath()), "UTF-8");
+            fileContent = removeUTF8BOM(fileContent);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -56,5 +57,12 @@ public class WordIndex {
         }
 
         return result;
+    }
+
+    private static String removeUTF8BOM(String s) {
+        if (s.startsWith("\uFEFF")) {
+            s = s.substring(1);
+        }
+        return s;
     }
 }
