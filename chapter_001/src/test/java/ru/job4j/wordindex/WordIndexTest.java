@@ -33,10 +33,8 @@ public class WordIndexTest {
 
     @Test
     public void getIndexes4Word() throws Exception {
-        int count1 = 0;
-        for (Character c : testFileContent.toCharArray()) {
-            System.out.print(count1++);
-            System.out.println(" " + c + " " + (int) c);
+        for (int i = 0; i < testFileContent.length(); i++) {
+            System.out.printf("%i: &s &s", i, testFileContent.charAt(i), wordIndex.getFileContent().charAt(i));
         }
 
         int count = 0;
