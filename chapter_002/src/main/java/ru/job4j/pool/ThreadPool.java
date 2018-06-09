@@ -38,7 +38,7 @@ public class ThreadPool {
                     tasks.take().run();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
-                }finally {
+                } finally {
                     this.interrupt();
                 }
             }
