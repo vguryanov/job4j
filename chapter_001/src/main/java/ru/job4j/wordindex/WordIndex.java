@@ -1,5 +1,6 @@
 package ru.job4j.wordindex;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -20,6 +21,10 @@ public class WordIndex {
         loadFile(filePath);
     }
 
+    public WordIndex(File file) {
+        loadFile(file);
+    }
+
     public String getFileContent() {
         return fileContent;
     }
@@ -27,6 +32,14 @@ public class WordIndex {
     public void loadFile(String filename) {
         try {
             fileContent = new String(Files.readAllBytes(Paths.get(filename)), "UTF-8");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadFile(File file) {
+        try {
+            fileContent = new String(Files.readAllBytes(file.toPath()), "UTF-8");
         } catch (IOException e) {
             e.printStackTrace();
         }
