@@ -40,7 +40,7 @@ public class WordIndex {
     public void loadFile(File file) {
         try {
             fileContent = new String(Files.readAllBytes(file.toPath()), "UTF-8");
-            fileContent = removeUTF8BOM(fileContent);
+            fileContent = removeSpecChars(fileContent);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -59,7 +59,7 @@ public class WordIndex {
         return result;
     }
 
-    private static String removeUTF8BOM(String s) {
+    private static String removeSpecChars(String s) {
         s = s.replace("\r", " ");
         s = s.replace("\n", " ");
 
