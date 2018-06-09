@@ -61,9 +61,6 @@ public class WordIndex {
 
     private static String removeSpecChars(String s) {
         s = s.replace(System.lineSeparator(), " ");
-//        s = s.replace("\r", " ");
-//        s = s.replace("\n", " ");
-
         if (s.startsWith("\uFEFF")) {
             s = s.substring(1);
         }

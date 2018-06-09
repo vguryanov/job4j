@@ -33,10 +33,6 @@ public class WordIndexTest {
 
     @Test
     public void getIndexes4Word() throws Exception {
-        for (int i = 0; i < testFileContent.length(); i++) {
-            System.out.printf("%d: %s %s\n", i, testFileContent.charAt(i), wordIndex.getFileContent().charAt(i));
-        }
-
         int count = 0;
         for (int i : wordIndex.getIndexes4Word("Chrome")) {
             assertThat(i, is(testWordIndexes[count++]));
