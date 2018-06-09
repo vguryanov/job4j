@@ -32,7 +32,8 @@ public class WordIndexTest {
     }
 
     @Test
-    public void getIndexes4Word() throws Exception {int count = 0;
+    public void getIndexes4Word() throws Exception {
+        int count = 0;
         for (int i : wordIndex.getIndexes4Word("Chrome")) {
             assertThat(i, is(testWordIndexes[count++]));
         }
