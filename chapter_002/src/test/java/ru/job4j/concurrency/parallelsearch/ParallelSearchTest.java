@@ -21,7 +21,7 @@ public class ParallelSearchTest {
                 Arrays.asList(".txt")
         );
         ps.init();
-//        List<String> expected = Arrays.asList("src\\test\\resources\\testfile.txt", "target\\test-classes\\testfile.txt");
+
         List<String> expected = Arrays.asList(
                 "src" + File.separator + "test" + File.separator + "resources" + File.separator + "testfile.txt",
                 "target" + File.separator + "test-classes" + File.separator + "testfile.txt");
