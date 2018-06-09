@@ -60,6 +60,9 @@ public class WordIndex {
     }
 
     private static String removeUTF8BOM(String s) {
+        s = s.replace("\r", " ");
+        s = s.replace("\n", " ");
+
         if (s.startsWith("\uFEFF")) {
             s = s.substring(1);
         }

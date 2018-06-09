@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
 public class WordIndexTest {
     private WordIndex wordIndex;
     private String testFileContent = "Несколько месяцев назад разработчики Chrome объявили, что в июле 2018 года начнут помечать "
-            + "как небезопасные все страницы HTTP. " + System.lineSeparator()
+            + "как небезопасные все страницы HTTP.   "
             + "Значок «Не защищено» (“Not secure”) появится в адресной строке Chrome рядом с URL.";
     private int[] testWordIndexes = new int[]{192, 37};
 
@@ -32,13 +32,7 @@ public class WordIndexTest {
     }
 
     @Test
-    public void getIndexes4Word() throws Exception {
-        int count1 = 0;
-        for (Character c : testFileContent.toCharArray()) {
-            System.out.println(count1++ + " " + c + " " + (int) c);
-        }
-
-        int count = 0;
+    public void getIndexes4Word() throws Exception {int count = 0;
         for (int i : wordIndex.getIndexes4Word("Chrome")) {
             assertThat(i, is(testWordIndexes[count++]));
         }
