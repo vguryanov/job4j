@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
 public class WordIndexTest {
     private WordIndex wordIndex;
     private String testFileContent = "Несколько месяцев назад разработчики Chrome объявили, что в июле 2018 года начнут помечать "
-            + "как небезопасные все страницы HTTP. \r\n"
+            + "как небезопасные все страницы HTTP. " + System.lineSeparator()
             + "Значок «Не защищено» (“Not secure”) появится в адресной строке Chrome рядом с URL.";
     private int[] testWordIndexes = new int[]{192, 37};
 
