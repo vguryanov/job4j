@@ -53,11 +53,11 @@ class ExchangePlatform {
         return result;
     }
 
-    boolean createOffer(OfferType type, int price, int volume, String emitterName) {
+    boolean createOffer(Offer offer) {
         return tasks.offer(
                 new Task(
                         Task.Type.ADD,
-                        new Offer(type, price, volume, emitterName)
+                        offer
                 )
         );
     }

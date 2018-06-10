@@ -25,19 +25,19 @@ public class ExchangePlatformTest {
         exchangePlatform.addEmitter(emitters[1]);
         exchangePlatform.addEmitter(emitters[2]);
 
-        exchangePlatform.createOffer(OfferType.BUY, 5, 10, emitters[0]);
-        exchangePlatform.createOffer(OfferType.SELL, 7, 20, emitters[0]);
-        exchangePlatform.createOffer(OfferType.BUY, 12, 13, emitters[1]);
-        exchangePlatform.createOffer(OfferType.SELL, 14, 13, emitters[1]);
-        exchangePlatform.createOffer(OfferType.BUY, 200, 1, emitters[2]);
-        exchangePlatform.createOffer(OfferType.SELL, 205, 5, emitters[2]);
+        exchangePlatform.createOffer(new Offer(OfferType.BUY, 5, 10, emitters[0]));
+        exchangePlatform.createOffer(new Offer(OfferType.SELL, 7, 20, emitters[0]));
+        exchangePlatform.createOffer(new Offer(OfferType.BUY, 12, 13, emitters[1]));
+        exchangePlatform.createOffer(new Offer(OfferType.SELL, 14, 13, emitters[1]));
+        exchangePlatform.createOffer(new Offer(OfferType.BUY, 200, 1, emitters[2]));
+        exchangePlatform.createOffer(new Offer(OfferType.SELL, 205, 5, emitters[2]));
         exchangePlatform.work(true);
     }
 
     @Test
     public void addOffer() throws Exception {
-        exchangePlatform.createOffer(OfferType.SELL, 4, 10, emitters[0]);
-        exchangePlatform.createOffer(OfferType.BUY, 8, 20, emitters[0]);
+        exchangePlatform.createOffer(new Offer(OfferType.SELL, 4, 10, emitters[0]));
+        exchangePlatform.createOffer(new Offer(OfferType.BUY, 8, 20, emitters[0]));
         exchangePlatform.work(true);
         String result = exchangePlatform.getViewForEmitter(emitters[0]);
         String expected = "Apple Inc. offers:\n"
