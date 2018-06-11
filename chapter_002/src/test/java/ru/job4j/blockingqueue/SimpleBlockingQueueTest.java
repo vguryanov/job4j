@@ -32,7 +32,7 @@ public class SimpleBlockingQueueTest {
 
         producer.start();
         consumer.start();
-        Thread.sleep(20);
+        Thread.sleep(5);
         producer.interrupt();
         consumer.interrupt();
     }
