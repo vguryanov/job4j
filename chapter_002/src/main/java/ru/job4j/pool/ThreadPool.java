@@ -16,11 +16,16 @@ public class ThreadPool {
         for (int i = 0; i < CORE_AMOUNT; i++) {
             PoolThread p = new PoolThread();
             threads.add(p);
-            p.start();
         }
     }
 
-    public void work(Runnable job) throws InterruptedException {
+    public void start() {
+        for (Thread t : threads) {
+            t.start();
+        }
+    }
+
+    public void work(Runnable job) {
         tasks.offer(job);
     }
 
@@ -38,7 +43,6 @@ public class ThreadPool {
                     tasks.take().run();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
-                } finally {
                     this.interrupt();
                 }
             }
