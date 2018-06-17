@@ -1,25 +1,31 @@
 package ru.job4j.tracker;
 
+import java.sql.Timestamp;
+import java.time.format.DateTimeFormatter;
+
 /**
  * Created by User2 on 16.04.2018.
  */
 public class Item {
     private String id, name, description, comments;
-    private long created;
+    private Timestamp created;
 
     public Item(String name, String description) {
-        this.name = name;
-        this.description = description;
-    }
-
-    public Item(String name, String description, long created) {
-        if (name != null && description != null && created != 0) {
+        if (name != null && description != null) {
             this.name = name;
             this.description = description;
-            this.created = created;
+            this.comments = "";
         } else {
             throw new NullPointerException();
         }
+    }
+
+    public Item(String id, String name, String description, String comments, Timestamp created) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.comments = comments;
+        this.created = created;
     }
 
     public String getId() {
@@ -54,17 +60,17 @@ public class Item {
         this.comments = comments;
     }
 
-    public long getCreated() {
+    public Timestamp getCreated() {
         return created;
     }
 
-    public void setCreated(long created) {
+    public void setCreated(Timestamp created) {
         this.created = created;
     }
 
     @Override
     public String toString() {
-        return id + ", name: " + name + ", desc: " + description;
+        return String.format("%s %s %s %s %s", id, name, description, comments, created);
     }
 
     @Override

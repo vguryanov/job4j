@@ -147,13 +147,11 @@ public class TrackerMenu {
 
         @Override
         public void execute() {
-            ArrayList<Item> result = tracker.findByName(
-                    input.ask("Enter task name for search: ")
+            System.out.println(
+                    tracker.findByName(
+                            input.ask("Enter task name for search: ")
+                    )
             );
-
-            for (Item item : result) {
-                System.out.println(item);
-            }
         }
     }
 

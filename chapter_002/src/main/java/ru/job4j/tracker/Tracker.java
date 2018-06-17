@@ -1,5 +1,7 @@
 package ru.job4j.tracker;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
@@ -8,101 +10,67 @@ import java.util.Random;
  * @version $Id$
  * @since 0.1
  */
-public class Tracker {
-    /**
-     * Массив для хранение заявок.
-     */
-    private final ArrayList<Item> items = new ArrayList<>();
-
-    /**
-     * Указатель ячейки для новой заявки.
-     */
-    private static final Random RNDM = new Random();
-
+public class Tracker implements AutoCloseable {
     /**
      * Метод реализаущий добавление заявки в хранилище
      *
      * @param item новая заявка
      */
-    public Item add(Item item) {
-        item.setId(this.generateId());
-        this.items.add(item);
-        return item;
-    }
-
-    /**
-     * Метод генерирует уникальный ключ для заявки.
-     * Так как у заявки нет уникальности полей, имени и описание. Для идентификации нам нужен уникальный ключ.
-     *
-     * @return Уникальный ключ.
-     */
-    private String generateId() {
-        //Реализовать метод генерации.
-        return String.valueOf(RNDM.nextInt(10000));
-    }
-
-    private int findIndexById(String id) {
-        for (int i = 0; i < items.size(); i++) {
-            if (items.get(i) != null && items.get(i).getId().equals(id)) {
-                return i;
-            }
-        }
-        throw new NullPointerException();
+    public void add(Item item) {
+        DBUtils.addItem(item);
     }
 
     public Item findItemById(String id) {
-        return items.get(this.findIndexById(id));
+        Item result = null;
+        try {
+            result = DBUtils.getItemById(id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
-    public ArrayList<Item> findByName(String key) {
-        ArrayList<Item> resultList = new ArrayList<>();
-        int itemCount = 0;
-        for (int i = 0; i < items.size(); i++) {
-            if (items.get(i) != null && items.get(i).getName().equals(key)) {
-                resultList.add(items.get(i));
-                itemCount++;
-            }
+    public Item findByName(String name) {
+        Item result = null;
+        try {
+            result = DBUtils.getItemByName(name);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
-        if (resultList.size() > 0) {
-            return resultList;
-        } else {
-            return null;
-        }
-    }
-
-    public ArrayList<Item> getAll() {
-        ArrayList<Item> itemList = new ArrayList<>();
-
-        for (Item item : items) {
-            if (item != null) {
-                itemList.add(item);
-            }
-        }
-
-        if (itemList.size() > 0) {
-            return itemList;
-        }
-        return null;
+        return result;
     }
 
     public void replace(String id, Item item) {
-        item.setId(id);
-        items.set(findIndexById(id), item);
+        DBUtils.replaceItemById(id, item);
     }
 
     public void delete(String id) {
-        int deletedItemIndex = findIndexById(id);
-        items.remove(items.get(deletedItemIndex));
+        DBUtils.removeItem(id);
         System.out.println("Item " + id + " deleted");
     }
 
     public void showAllItems() {
-        ArrayList<Item> items = this.getAll();
-        if (items != null) {
-            for (Item item : this.getAll()) {
-                System.out.println(item);
+        try {
+            ResultSet items = DBUtils.getAllItems();
+            while (items.next()) {
+                if (items.getBoolean(6)) {
+                    continue;
+                }
+                System.out.printf("%d %s %s %s %s \n",
+                        items.getInt(1),
+                        items.getString(2),
+                        items.getString(3),
+                        items.getString(4),
+                        items.getTimestamp(5)
+                );
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+    }
+
+    @Override
+    public void close() throws Exception {
+        DBUtils.closeConnection();
     }
 }
