@@ -17,8 +17,8 @@ public class DBUtils {
         Properties props = new Properties();
         props.setProperty("user", PropertiesUtils.getUserName());
         props.setProperty("password", PropertiesUtils.getPassword());
-        try {
-            connection = DriverManager.getConnection(url, props);
+        try (Connection connection = DriverManager.getConnection(url, props)) {
+            DBUtils.connection = connection;
             ensureItemTable();
         } catch (SQLException e) {
             e.printStackTrace();
