@@ -1,10 +1,12 @@
 package ru.job4j.concurrency;
 
+import java.util.concurrent.locks.ReentrantLock;
+
 /**
  * Created by User2 on 13.06.2018.
  */
 public class Deadlock {
-    private static Object lockA = new Object(), lockB = new Object();
+    private static ReentrantLock lockA = new ReentrantLock(true), lockB = new ReentrantLock(true);
     private static TwinCounter counter1 = new TwinCounter();
 
     public static void main(String[] args) {
