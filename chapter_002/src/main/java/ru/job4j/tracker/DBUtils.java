@@ -8,15 +8,16 @@ import java.util.Properties;
  */
 public class DBUtils {
     private static Connection connection;
+    private static PropertiesManager propManager = new PropertiesManager("tracker", "dbURL", "userName", "password", "initQuery");
 
     private DBUtils() {
     }
 
     private static void openConnection() {
-        String url = PropertiesUtils.getDbURL();
+        String url = propManager.getProperty("dbURL");
         Properties props = new Properties();
-        props.setProperty("user", PropertiesUtils.getUserName());
-        props.setProperty("password", PropertiesUtils.getPassword());
+        props.setProperty("user", propManager.getProperty("userName"));
+        props.setProperty("password", propManager.getProperty("userName"));
         try (Connection connection = DriverManager.getConnection(url, props)) {
             DBUtils.connection = connection;
             ensureItemTable();
@@ -40,7 +41,7 @@ public class DBUtils {
     }
 
     private static void ensureItemTable() {
-        executeQuery(PropertiesUtils.getInitQuery());
+        executeQuery(propManager.getProperty("initQuery"));
     }
 
     private static ResultSet executeQuery(String query) {

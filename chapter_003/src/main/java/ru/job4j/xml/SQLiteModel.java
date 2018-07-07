@@ -85,7 +85,6 @@ public class SQLiteModel {
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("select * from account");
-
             while (resultSet.next()) {
                 accounts.add(
                         new Account(
