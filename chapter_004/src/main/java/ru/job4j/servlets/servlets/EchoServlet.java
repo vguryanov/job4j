@@ -1,4 +1,4 @@
-package ru.job4j.servlets;
+package ru.job4j.servlets.servlets;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
