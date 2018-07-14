@@ -10,19 +10,19 @@ import java.util.function.Function;
 /**
  * Created by User2 on 12.07.2018.
  */
-public class ValidateService {
-    private static ValidateService instance;
+public class ValidationService {
+    private static ValidationService instance;
     private Store<MemoryStore.User> store;
     private final LinkedHashMap<Function<String, Boolean>, Function<HttpServletRequest, Boolean>> dispatcher = new LinkedHashMap<>();
 
-    private ValidateService() {
+    private ValidationService() {
         store = MemoryStore.getInstance();
         this.initDispatcher();
     }
 
-    public static ValidateService getInstance() {
+    public static ValidationService getInstance() {
         if (instance == null) {
-            instance = new ValidateService();
+            instance = new ValidationService();
         }
         return instance;
     }
@@ -51,37 +51,41 @@ public class ValidateService {
         return false;
     }
 
-    private boolean deleteUser(HttpServletRequest req) {
+    public boolean deleteUser(HttpServletRequest req) {
         int id = Integer.parseInt(req.getParameter("id"));
-        if (!store.contains(id)) {
-            return false;
-        }
-        return store.delete(id);
+        return store.contains(id) && store.delete(id);
     }
 
-    private boolean updateUser(HttpServletRequest req) {
+    public boolean updateUser(HttpServletRequest req) {
         int id = Integer.parseInt(req.getParameter("id"));
-        String name = req.getParameter("name");
-        if (!store.contains(id)) {
-            return false;
-        }
-        return store.update(id, name);
-    }
-
-    private boolean addUser(HttpServletRequest req) {
         String name = req.getParameter("name");
         String login = req.getParameter("login");
         String email = req.getParameter("email");
-        boolean isDataValid = true;
-        for (MemoryStore.User u : store.getAll().values()) {
-            if (u.getLogin().equals(login) || u.getEmail().equals(email)) {
-                isDataValid = false;
-                break;
-            }
+        if (!store.contains(id) || !isUserDataValid(name, login, email)) {
+            return false;
         }
-        if (!isDataValid) {
+        return store.update(id, name, login, email);
+    }
+
+    public boolean addUser(HttpServletRequest req) {
+        String name = req.getParameter("name");
+        String login = req.getParameter("login");
+        String email = req.getParameter("email");
+        if (!isUserDataValid(name, login, email)) {
             return false;
         }
         return store.add(name, login, email);
+    }
+
+    private boolean isUserDataValid(String name, String login, String email) {
+        if (name == null && login == null && email == null) {
+            return false;
+        }
+        for (MemoryStore.User u : store.getAll().values()) {
+            if (u.getName().equals(name) || u.getLogin().equals(login) || u.getEmail().equals(email)) {
+                return false;
+            }
+        }
+        return true;
     }
 }

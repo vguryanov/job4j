@@ -6,21 +6,38 @@
          version="2.4">
 
     <servlet>
-        <servlet-name>EchoServlet</servlet-name>
-        <servlet-class>ru.job4j.servlets.servlets.EchoServlet</servlet-class>
+        <servlet-name>UsersServlet</servlet-name>
+        <servlet-class>ru.job4j.servlets.servlets.UsersServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>EchoServlet</servlet-name>
-        <url-pattern>/echo</url-pattern>
+        <servlet-name>UsersServlet</servlet-name>
+        <url-pattern>/users</url-pattern>
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>UserServlet</servlet-name>
-        <servlet-class>ru.job4j.servlets.servlets.UserServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
+        <servlet-name>UserCreateServlet</servlet-name>
+        <servlet-class>ru.job4j.servlets.servlets.UserCreateServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>UserServlet</servlet-name>
-        <url-pattern>/users</url-pattern>
+        <servlet-name>UserCreateServlet</servlet-name>
+        <url-pattern>/create</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>UserUpdateServlet</servlet-name>
+        <servlet-class>ru.job4j.servlets.servlets.UserUpdateServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserUpdateServlet</servlet-name>
+        <url-pattern>/update</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>UserDeleteServlet</servlet-name>
+        <servlet-class>ru.job4j.servlets.servlets.UserDeleteServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserDeleteServlet</servlet-name>
+        <url-pattern>/delete</url-pattern>
     </servlet-mapping>
 </web-app>

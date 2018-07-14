@@ -31,8 +31,17 @@ public class MemoryStore implements Store<MemoryStore.User> {
     }
 
     @Override
-    public boolean update(int id, String name) {
-        users.get(id).setName(name);
+    public boolean update(int id, String name, String login, String email) {
+        User u = users.get(id);
+        if (name != null) {
+            u.setName(name);
+        }
+        if (login != null) {
+            u.setLogin(login);
+        }
+        if (email != null) {
+            u.setEmail(email);
+        }
         return true;
     }
 
