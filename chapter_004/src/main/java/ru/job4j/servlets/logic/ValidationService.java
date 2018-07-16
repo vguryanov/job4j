@@ -37,7 +37,7 @@ public class ValidationService {
                 this::updateUser
         );
         dispatcher.put(
-                s -> {return s.equals("delete");},
+                s -> s.equals("delete"),
                 this::deleteUser
         );
     }
