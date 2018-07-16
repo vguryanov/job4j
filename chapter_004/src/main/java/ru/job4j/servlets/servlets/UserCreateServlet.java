@@ -19,19 +19,18 @@ public class UserCreateServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
         PrintWriter writer = new PrintWriter(resp.getOutputStream());
-        writer.append(
-                "<html>"
-                        + "   <body>"
-                        + "      <form action = '" + req.getContextPath() + "/create' method = 'POST'>"
-                        + "         Name: <input type = \"text\" name = \"name\">"
-                        + "         <br>"
-                        + "         Login: <input type = \"text\" name = \"login\" />"
-                        + "         <br>"
-                        + "         Email: <input type = \"text\" name = \"email\" />"
-                        + "         <input type = \"submit\"/>"
-                        + "      </form>"
-                        + "   </body>"
-                        + "</html>"
+        writer.append("<html>"
+                + "   <body>"
+                + "      <form action = '" + req.getContextPath() + "/create' method = 'POST'>"
+                + "         Name: <input type = 'text' name = \"name\">"
+                + "         <br>"
+                + "         Login: <input type = \"text\" name = \"login\" />"
+                + "         <br>"
+                + "         Email: <input type = \"text\" name = \"email\" />"
+                + "         <input type = \"submit\"/>"
+                + "      </form>"
+                + "   </body>"
+                + "</html>"
         );
         writer.flush();
     }

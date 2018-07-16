@@ -38,7 +38,7 @@ public class UsersServlet extends HttpServlet {
             writer.append("<td>"
                     + "<form action = '" + req.getContextPath() + "/delete' method = 'POST'>"
                     + "<input type = \"submit\" value = 'delete'/>"
-                    + "<input type=\"hidden\" id=\"hidField1\" name=\"id\" value=\"" + u.getId() + "\">"
+                    + "<input type=\"hidden\" id=\"hidField5\" name=\"id\" value=\"" + u.getId() + "\">"
                     + "</form>"
                     + "</td>"
             );

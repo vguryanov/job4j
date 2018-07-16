@@ -13,7 +13,7 @@ public class MemoryStore implements Store<MemoryStore.User> {
     private static Map<Integer, User> users = new ConcurrentHashMap<>();
 
     private MemoryStore() {
-
+        add("testname","testlog","testmail");
     }
 
     public static MemoryStore getInstance() {
