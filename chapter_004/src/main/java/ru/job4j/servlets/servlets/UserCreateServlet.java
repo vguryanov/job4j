@@ -37,8 +37,11 @@ public class UserCreateServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String name = req.getParameter("name");
+        String login = req.getParameter("login");
+        String email = req.getParameter("email");
         PrintWriter writer = new PrintWriter(resp.getOutputStream());
-        writer.append(String.valueOf(vs.addUser(req)));
+        writer.append(String.valueOf(vs.addUser(name, login, email)));
         writer.flush();
     }
 }

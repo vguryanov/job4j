@@ -17,9 +17,10 @@ public class UserDeleteServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int id = Integer.parseInt(req.getParameter("id"));
         resp.setContentType("text/html");
         PrintWriter writer = new PrintWriter(resp.getOutputStream());
-        writer.append(String.valueOf(vs.deleteUser(req)));
+        writer.append(String.valueOf(vs.deleteUser(id)));
         writer.flush();
     }
 }

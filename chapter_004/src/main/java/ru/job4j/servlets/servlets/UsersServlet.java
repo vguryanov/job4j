@@ -14,8 +14,6 @@ import java.io.PrintWriter;
  * Created by User2 on 14.07.2018.
  */
 public class UsersServlet extends HttpServlet {
-    private ValidationService vs = ValidationService.getInstance();
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         PrintWriter writer = new PrintWriter(resp.getOutputStream());

@@ -38,8 +38,12 @@ public class UserUpdateServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int id = Integer.parseInt(req.getParameter("id"));
+        String name = req.getParameter("name");
+        String login = req.getParameter("login");
+        String email = req.getParameter("email");
         PrintWriter writer = new PrintWriter(resp.getOutputStream());
-        writer.append(String.valueOf(vs.updateUser(req)));
+        writer.append(String.valueOf(vs.updateUser(id, name, login, email)));
         writer.flush();
     }
 }
