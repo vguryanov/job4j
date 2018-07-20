@@ -1,7 +1,7 @@
 package ru.job4j.servlets.servlets;
 
-import ru.job4j.servlets.logic.ValidationService;
-import ru.job4j.servlets.persistence.MemoryStore;
+import ru.job4j.servlets.persistence.DBStore;
+import ru.job4j.servlets.persistence.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -20,7 +20,7 @@ public class UsersServlet extends HttpServlet {
         writer.append(
                 "<table>"
         );
-        for (MemoryStore.User u : MemoryStore.getInstance().getAll().values()) {
+        for (User u : DBStore.getInstance().getAll().values()) {
             writer.append("<tr>");
             writer.append(String.format("<td>%s</td>", u));
             writer.append("<td>"

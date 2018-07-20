@@ -1,4 +1,6 @@
-<%@ page import="ru.job4j.servlets.persistence.MemoryStore" %><%--
+<%@ page import="ru.job4j.servlets.persistence.MemoryStore" %>
+<%@ page import="ru.job4j.servlets.persistence.User" %>
+<%@ page import="ru.job4j.servlets.persistence.DBStore" %><%--
   Created by IntelliJ IDEA.
   User: User2
   Date: 16.07.2018
@@ -19,7 +21,7 @@
     <td><b>Email</b></td>
     </thead>
     <tbody>
-    <% for (MemoryStore.User u : MemoryStore.getInstance().getAll().values()) {%>
+    <% for (User u : DBStore.getInstance().getAll().values()) {%>
     <tr>
         <td>
             <%=u.getId()%>

@@ -1,21 +1,18 @@
 package ru.job4j.servlets.logic;
 
-import ru.job4j.servlets.persistence.MemoryStore;
+import ru.job4j.servlets.persistence.DBStore;
 import ru.job4j.servlets.persistence.Store;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.LinkedHashMap;
-import java.util.function.Function;
+import ru.job4j.servlets.persistence.User;
 
 /**
  * Created by User2 on 12.07.2018.
  */
 public class ValidationService {
     private static ValidationService instance;
-    private Store<MemoryStore.User> store;
+    private Store<User> store;
 
     private ValidationService() {
-        store = MemoryStore.getInstance();
+        store = DBStore.getInstance();
     }
 
     public static ValidationService getInstance() {
@@ -30,7 +27,7 @@ public class ValidationService {
     }
 
     public boolean updateUser(int id, String name, String login, String email) {
-        if (!store.contains(id) || !isUserDataValid(name, login, email)) {
+        if (!store.contains(id)) {
             return false;
         }
         return store.update(id, name, login, email);
@@ -47,7 +44,7 @@ public class ValidationService {
         if (name == null && login == null && email == null) {
             return false;
         }
-        for (MemoryStore.User u : store.getAll().values()) {
+        for (User u : store.getAll().values()) {
             if (u.getName().equals(name) || u.getLogin().equals(login) || u.getEmail().equals(email)) {
                 return false;
             }

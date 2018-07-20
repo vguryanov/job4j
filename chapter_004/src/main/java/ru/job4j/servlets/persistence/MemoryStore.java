@@ -1,7 +1,6 @@
 package ru.job4j.servlets.persistence;
 
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -10,13 +9,12 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 /**
  * Created by User2 on 12.07.2018.
  */
-public class MemoryStore implements Store<MemoryStore.User> {
+public class MemoryStore implements Store<User> {
     private volatile static MemoryStore instance;
     private static ReadWriteLock lock = new ReentrantReadWriteLock();
     private static Map<Integer, User> users = new HashMap<>();
 
     private MemoryStore() {
-        add("testname", "testlog", "testmail");
     }
 
     public static MemoryStore getInstance() {
@@ -83,56 +81,4 @@ public class MemoryStore implements Store<MemoryStore.User> {
         }
     }
 
-    public static class User {
-        private static int idCounter;
-
-        private int id;
-        private String name, login, email;
-        private Date creationDate;
-
-        private User(String name, String login, String email) {
-            this.id = ++idCounter;
-            this.name = name;
-            this.login = login;
-            this.email = email;
-            this.creationDate = new Date();
-        }
-
-        public int getId() {
-            return id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getLogin() {
-            return login;
-        }
-
-        public void setLogin(String login) {
-            this.login = login;
-        }
-
-        public String getEmail() {
-            return email;
-        }
-
-        public void setEmail(String email) {
-            this.email = email;
-        }
-
-        public Date getCreationDate() {
-            return creationDate;
-        }
-
-        @Override
-        public String toString() {
-            return String.format("%d : %s : %s : %s : %s", id, name, login, email, creationDate);
-        }
-    }
 }
