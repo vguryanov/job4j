@@ -16,7 +16,7 @@ public class DBStore implements Store<User> {
     private static DBStore instance;
     private static Properties properties;
 
-    public DBStore() {
+    private DBStore() {
         SOURCE.setDriverClassName(properties.getProperty("driverClassName"));
         SOURCE.setUrl(properties.getProperty("dbURL"));
         SOURCE.setUsername(properties.getProperty("userName"));
@@ -59,13 +59,15 @@ public class DBStore implements Store<User> {
     }
 
     @Override
-    public boolean add(String name, String login, String email) {
+    public boolean add(String name, String login, String password, String email, User.Role role) {
         try (Connection connection = SOURCE.getConnection();
              PreparedStatement st = connection.prepareStatement(
-                     "INSERT INTO users (name, login, email) VALUES (?, ?, ?)")) {
+                     "INSERT INTO users (name, login, email, password, permissions) VALUES (?, ?, ?, ?, ?::role_type)")) {
             st.setString(1, name);
             st.setString(2, login);
             st.setString(3, email);
+            st.setString(4, password);
+            st.setString(5, role.name());
             st.executeQuery();
         } catch (Exception e) {
             e.printStackTrace();
@@ -74,14 +76,16 @@ public class DBStore implements Store<User> {
     }
 
     @Override
-    public boolean update(int id, String name, String login, String email) {
+    public boolean update(int id, String name, String login, String password, String email, User.Role role) {
         try (Connection connection = SOURCE.getConnection();
              PreparedStatement st = connection.prepareStatement(
-                     "update users set name=?, login=?, email=? where id=?")) {
+                     "update users set name=?, login=?, email=?, password=?, permissions=?::role_type where id=?")) {
             st.setString(1, name);
             st.setString(2, login);
             st.setString(3, email);
-            st.setInt(4, id);
+            st.setString(4, password);
+            st.setString(5, role.toString());
+            st.setInt(6, id);
             st.executeQuery();
         } catch (Exception e) {
             e.printStackTrace();
@@ -118,7 +122,9 @@ public class DBStore implements Store<User> {
                                 rs.getString(2),
                                 rs.getString(3),
                                 rs.getString(4),
-                                rs.getTimestamp(5)
+                                rs.getString(6),
+                                rs.getTimestamp(5),
+                                User.Role.valueOf(rs.getString(7))
                         )
                 );
             }
@@ -141,7 +147,9 @@ public class DBStore implements Store<User> {
                     rs.getString(2),
                     rs.getString(3),
                     rs.getString(4),
-                    rs.getTimestamp(5)
+                    rs.getString(6),
+                    rs.getTimestamp(5),
+                    User.Role.valueOf(rs.getString(7))
             );
         } catch (Exception e) {
             e.printStackTrace();
@@ -154,7 +162,31 @@ public class DBStore implements Store<User> {
         return findById(id) != null;
     }
 
-    public static void main(String[] args) {
-        System.out.println(getInstance().getAll());
+    public boolean isUserAuthDataValid(String login, String password) {
+        try (Connection connection = SOURCE.getConnection();
+             PreparedStatement st = connection.prepareStatement(
+                     "SELECT * FROM users WHERE (login=? and password=?)")) {
+            st.setString(1, login);
+            st.setString(2, password);
+            ResultSet rs = st.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public User.Role getRoleForLogin(String login) {
+        try (Connection connection = SOURCE.getConnection();
+             PreparedStatement st = connection.prepareStatement(
+                     "SELECT permissions FROM users WHERE login=?")) {
+            st.setString(1, login);
+            ResultSet rs = st.executeQuery();
+            rs.next();
+            return User.Role.valueOf(rs.getString(1));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

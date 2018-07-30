@@ -10,22 +10,31 @@ public class User {
     private static int idCounter;
 
     private int id;
-    private String name, login, email;
+    private String name, login, password, email;
     private Timestamp creationDate;
+    private Role role;
 
-    User(String name, String login, String email) {
+    public enum Role {
+        USER, ADMIN
+    }
+
+    public User(String name, String login, String password, String email, Role role) {
         this.id = ++idCounter;
         this.name = name;
         this.login = login;
+        this.password = password;
         this.email = email;
+        this.role = role;
         this.creationDate = new Timestamp(new Date().getTime());
     }
 
-    public User(int id, String name, String login, String email, Timestamp creationDate) {
+    public User(int id, String name, String login, String password, String email, Timestamp creationDate, Role role) {
         this.id = id;
         this.name = name;
         this.login = login;
+        this.password = password;
         this.email = email;
+        this.role = role;
         this.creationDate = creationDate;
     }
 
@@ -53,12 +62,28 @@ public class User {
         this.login = login;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public Timestamp getCreationDate() {
@@ -71,6 +96,6 @@ public class User {
 
     @Override
     public String toString() {
-        return String.format("%d : %s : %s : %s : %s", id, name, login, email, creationDate);
+        return String.format("%d : %s : %s : %s : %s : %s", id, role, name, login, email, creationDate);
     }
 }

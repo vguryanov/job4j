@@ -26,18 +26,18 @@ public class ValidationService {
         return store.contains(id) && store.delete(id);
     }
 
-    public boolean updateUser(int id, String name, String login, String email) {
+    public boolean updateUser(int id, String name, String login, String password, String email, String role) {
         if (!store.contains(id)) {
             return false;
         }
-        return store.update(id, name, login, email);
+        return store.update(id, name, login, password, email, User.Role.valueOf(role));
     }
 
-    public boolean addUser(String name, String login, String email) {
+    public boolean addUser(String name, String login, String password, String email, String role) {
         if (!isUserDataValid(name, login, email)) {
             return false;
         }
-        return store.add(name, login, email);
+        return store.add(name, login, password, email, User.Role.valueOf(role));
     }
 
     private boolean isUserDataValid(String name, String login, String email) {
