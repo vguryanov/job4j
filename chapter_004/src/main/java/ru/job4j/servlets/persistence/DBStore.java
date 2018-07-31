@@ -1,6 +1,7 @@
 package ru.job4j.servlets.persistence;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,6 +13,7 @@ import java.util.Map;
 import java.util.Properties;
 
 public class DBStore implements Store<User> {
+    private final static Logger LOGGER = Logger.getLogger(DBStore.class);
     private static final BasicDataSource SOURCE = new BasicDataSource();
     private static DBStore instance;
     private static Properties properties;
@@ -40,21 +42,11 @@ public class DBStore implements Store<User> {
         ClassLoader classLoader = DBStore.class.getClassLoader();
         File propertiesFile = new File(classLoader.getResource("dbcp.properties").getFile());
         Properties properties = new Properties();
-        InputStream input = null;
-        try {
-            input = new FileInputStream(propertiesFile);
+        try (InputStream input = new FileInputStream(propertiesFile)) {
             properties.load(input);
             DBStore.properties = properties;
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        } finally {
-            if (input != null) {
-                try {
-                    input.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+        } catch (IOException e) {
+            LOGGER.error("Error during DB property load", e);
         }
     }
 
@@ -69,8 +61,8 @@ public class DBStore implements Store<User> {
             st.setString(4, password);
             st.setString(5, role.name());
             st.executeQuery();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            LOGGER.error("Error while performing INSERT into DB", e);
         }
         return true;
     }
@@ -87,8 +79,8 @@ public class DBStore implements Store<User> {
             st.setString(5, role.toString());
             st.setInt(6, id);
             st.executeQuery();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            LOGGER.error("Error while performing UPDATE into DB", e);
         }
         return true;
     }
@@ -100,8 +92,8 @@ public class DBStore implements Store<User> {
                      "delete from users where id=?")) {
             st.setInt(1, id);
             st.executeQuery();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            LOGGER.error("Error while performing DELETE from DB", e);
         }
         return true;
     }
@@ -129,7 +121,7 @@ public class DBStore implements Store<User> {
                 );
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("Error while performing SELECT from DB", e);
         }
         return result;
     }
@@ -151,8 +143,8 @@ public class DBStore implements Store<User> {
                     rs.getTimestamp(5),
                     User.Role.valueOf(rs.getString(7))
             );
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            LOGGER.error("Error while performing SELECT from DB", e);
         }
         return null;
     }
@@ -171,7 +163,7 @@ public class DBStore implements Store<User> {
             ResultSet rs = st.executeQuery();
             return rs.next();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Error while performing SELECT from DB", e);
         }
         return false;
     }
@@ -185,7 +177,7 @@ public class DBStore implements Store<User> {
             rs.next();
             return User.Role.valueOf(rs.getString(1));
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Error while performing SELECT from DB", e);
         }
         return null;
     }

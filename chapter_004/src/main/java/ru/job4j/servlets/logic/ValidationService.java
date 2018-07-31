@@ -44,11 +44,6 @@ public class ValidationService {
         if (name == null && login == null && email == null) {
             return false;
         }
-        for (User u : store.getAll().values()) {
-            if (u.getName().equals(name) || u.getLogin().equals(login) || u.getEmail().equals(email)) {
-                return false;
-            }
-        }
         return true;
     }
 }
