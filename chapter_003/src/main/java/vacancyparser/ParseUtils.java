@@ -22,9 +22,6 @@ public class ParseUtils {
     private final static Logger LOGGER = Logger.getLogger(ParseUtils.class);
     private static final String START_URL = "http://www.sql.ru/forum/actualsearch.aspx?search=java&sin=1&bid=66&a=&ma=0&dt=-1&s=1&so=1&pg=";
 
-    public static void main(String[] args) {
-    }
-
     public static TreeSet<Vacancy> loadVacanciesToDate(Timestamp lastDate) {
         TreeSet<Vacancy> result = new TreeSet<>();
         try {
