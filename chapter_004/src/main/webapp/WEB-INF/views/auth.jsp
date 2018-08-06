@@ -16,6 +16,15 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script>
+        function validate() {
+            if ($('#login').val() == '') {
+                alert("Please, enter correct login");
+                return false;
+            }
+            return true;
+        }
+    </script>
     <style>
         .container {
             position: relative;
@@ -51,7 +60,7 @@
             <label for="password">Password</label>
             <input type="password" class="form-control" placeholder="Enter your password" id="password" name="password"><br>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary" onclick="return validate()">Submit</button>
     </form>
 </div>
 </body>
